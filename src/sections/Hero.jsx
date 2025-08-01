@@ -11,7 +11,7 @@ import cogImage from "../assets/cog.png";
 import cylinderImage from "../assets/cylinder.png";
 import noodleImage from "../assets/noodle.png";
 
-export const Hero = () => {
+export const Hero = ({ onGetStartedClick }) => {
   const heroRef = useRef(null);
 
   const { scrollYProgress } = useScroll({
@@ -42,7 +42,12 @@ export const Hero = () => {
               your progress, motivate your efforts, and celebrate your success.
             </p>
             <div className="flex gap-1 items-center mt-[30px]">
-              <button className="btn btn-primary">Get for free</button>
+              <button 
+                onClick={onGetStartedClick}
+                className="btn btn-primary hover:bg-[#001e80] transition-colors"
+              >
+                Get Started
+              </button>
               <button className="btn btn-text gap-1 flex items-center">
                 <span>Learn more</span>
                 <img
