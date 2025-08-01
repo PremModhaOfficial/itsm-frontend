@@ -10,22 +10,22 @@ import { ProductShowcase } from "./sections/ProductShowcase";
 import { Testimonials } from "./sections/Testimonials";
 import {Integrations} from "./sections/Integrations"
 import {Faqs} from './sections/Faqs';
+import { TechAutomation } from "./pages/TechAutomation";
 
 function App() {
 
   return (
     <div className='antialiased bg-[#EAEEFE]'>
-    <Header />
+      <Header />
       <Hero />
       <LogoTicker />
       <ProductShowcase />
-      <Pricing />
       <Testimonials />
-      <CallToAction />
-      <Footer />
       <Features />
       <Integrations/>
       <Faqs />
+      <CallToAction />
+      <Footer />
     </div>
   )
 }

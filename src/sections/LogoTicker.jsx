@@ -1,13 +1,17 @@
 import React from "react";
 import { motion } from "framer-motion";
 
-// Replace with your actual relative paths
-import acmeLogo from "../assets/logo-acme.png";
-import quantumLogo from "../assets/logo-quantum.png";
-import echoLogo from "../assets/logo-echo.png";
-import celestialLogo from "../assets/logo-celestial.png";
-import pulseLogo from "../assets/logo-pulse.png";
-import apexLogo from "../assets/logo-apex.png";
+// Import new SVG logos from custImg folder
+import suzukiLogo from "../assets/custImg/suzuki.svg";
+import vodafoneLogo from "../assets/custImg/vodafone.svg";
+import jswSteelLogo from "../assets/custImg/jsw_steel.svg";
+import kotakLogo from "../assets/custImg/kotak.svg";
+import unionBankLogo from "../assets/custImg/union-bank.svg";
+import bandhanBankLogo from "../assets/custImg/bandhan_bank.svg";
+import redwinLogo from "../assets/custImg/redwin.svg";
+import airtelLogo from "../assets/custImg/airtel.svg";
+import necLogo from "../assets/custImg/nec.svg";
+import uabLogo from "../assets/custImg/UAB.svg";
 
 export const LogoTicker = () => {
   return (
@@ -26,8 +30,8 @@ export const LogoTicker = () => {
               repeatType: "loop",
             }}
           >
-            {[acmeLogo, quantumLogo, echoLogo, celestialLogo, pulseLogo, apexLogo]
-              .concat([acmeLogo, quantumLogo, echoLogo, celestialLogo, pulseLogo, apexLogo]) // second set
+            {[suzukiLogo, vodafoneLogo, jswSteelLogo, kotakLogo, unionBankLogo, bandhanBankLogo, redwinLogo, airtelLogo, necLogo, uabLogo]
+              .concat([suzukiLogo, vodafoneLogo, jswSteelLogo, kotakLogo, unionBankLogo, bandhanBankLogo, redwinLogo, airtelLogo, necLogo, uabLogo]) // second set
               .map((logo, index) => (
                 <img
                   key={index}
