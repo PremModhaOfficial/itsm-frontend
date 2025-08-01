@@ -1,4 +1,5 @@
 import './App.css'
+import { TechnicianProfilePage } from './pages/TechnicianProfilePage';
 import { useState } from 'react';
 import { CallToAction } from "./sections/CallToAction";
 import { Features } from './sections/Features';
@@ -54,10 +55,12 @@ function App() {
             <Routes>
                 <Route path='/' element={<Landing />} />
                 <Route path='/ticket' element={<TicketForm />} />
+                <Route path="/technician/:id" element={<TechnicianProfilePage />} />
                 <Route path='/about' element={<About />} />
             </Routes>
         </BrowserRouter>
     )
+
 }
 
 export default App
