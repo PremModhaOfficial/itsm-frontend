@@ -11,12 +11,6 @@ import { Integrations } from "./sections/Integrations"
 import { LogoTicker } from "./sections/LogoTicker";
 import { ProductShowcase } from "./sections/ProductShowcase";
 import { Testimonials } from "./sections/Testimonials";
-import { Integrations } from "./sections/Integrations"
-import { Faqs } from './sections/Faqs';
-import { LoginModal } from "./components/LoginModal";
-import { BrowserRouter, Routes, Route } from 'react-router';
-import TicketForm from './components/TicketForm';
-import TicketDetailsView from './components/TicketDetailsView';
 
 function App() {
 
