@@ -22,10 +22,9 @@ export const CallToAction = () => {
     >
       <div className="container">
         <div className="section-heading relative">
-          <h2 className="section-title">Sign up for free today</h2>
+          <h2 className="section-title">Transform your IT support today</h2>
           <p className="section-description mt-5">
-            Celebrate the joy of accomplishment with an app designed to track
-            your progress and motivate your efforts.
+            Join the future of intelligent ticket management with AI-powered skill matching, performance tracking, and dynamic technician growth that boosts SLA compliance and team motivation.
           </p>
           <motion.img
             src={starImage}
@@ -43,9 +42,9 @@ export const CallToAction = () => {
           />
         </div>
         <div className="flex gap-2 mt-10 justify-center">
-          <button className="btn btn-primary">Get for free</button>
+          <button className="btn btn-primary">Start Free Trial</button>
           <button className="btn btn-text gap-1 flex items-center">
-            <span>Learn more</span>
+            <span>Schedule Demo</span>
             <img src={arrowRight} alt="Arrow right" className="h-5 w-5" />
           </button>
         </div>

@@ -6,52 +6,52 @@ import checkIcon from "../assets/check.svg"; // adjust path if needed
 
 const pricingTiers = [
   {
-    title: "Free",
+    title: "Starter",
     monthlyPrice: 0,
-    buttonText: "Get started for free",
+    buttonText: "Start free trial",
     popular: false,
     inverse: false,
     features: [
-      "Up to 5 project members",
-      "Unlimited tasks and projects",
-      "2GB storage",
-      "Integrations",
-      "Basic support",
+      "Up to 10 technicians",
+      "Basic skill matching",
+      "Standard integrations",
+      "Email support",
+      "Basic analytics",
     ],
   },
   {
-    title: "Pro",
-    monthlyPrice: 9,
-    buttonText: "Sign up now",
+    title: "Professional",
+    monthlyPrice: 29,
+    buttonText: "Start free trial",
     popular: true,
     inverse: true,
     features: [
-      "Up to 50 project members",
-      "Unlimited tasks and projects",
-      "50GB storage",
-      "Integrations",
+      "Up to 50 technicians",
+      "Advanced AI skill matching",
+      "Performance analytics",
+      "Gamification features",
       "Priority support",
-      "Advanced support",
-      "Export support",
+      "Custom integrations",
+      "SLA optimization",
     ],
   },
   {
-    title: "Business",
-    monthlyPrice: 19,
-    buttonText: "Sign up now",
+    title: "Enterprise",
+    monthlyPrice: 99,
+    buttonText: "Contact sales",
     popular: false,
     inverse: false,
     features: [
-      "Up to 5 project members",
-      "Unlimited tasks and projects",
-      "200GB storage",
-      "Integrations",
+      "Unlimited technicians",
+      "Full AI skill intelligence",
+      "Advanced performance tracking",
+      "Custom gamification",
       "Dedicated account manager",
-      "Custom fields",
+      "Custom integrations",
       "Advanced analytics",
-      "Export capabilities",
       "API access",
       "Advanced security features",
+      "On-premise deployment",
     ],
   },
 ];
@@ -61,10 +61,9 @@ export const Pricing = () => {
     <section className="py-24 bg-white justify-items-center">
       <div className="container">
         <div className="section-heading">
-          <h2 className="section-title">Pricing</h2>
+          <h2 className="section-title">Pricing Plans</h2>
           <p className="section-description mt-5">
-            Free forever. Upgrade for unlimited tasks, better security, and
-            exclusive features.
+            Choose the plan that fits your organization's size and needs. Start free and scale as you grow.
           </p>
         </div>
 
@@ -109,7 +108,7 @@ export const Pricing = () => {
                         }}
                         className="bg-[linear-gradient(to_right,#DD7DDF,#E1CD86,#BBCB92,#71C2EF,#3BFFFF,#DD7DDF)] [background-size:200%] text-transparent bg-clip-text font-medium"
                       >
-                        Popular
+                        Most Popular
                       </motion.span>
                     </div>
                   )}

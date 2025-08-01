@@ -10,7 +10,9 @@ import { ProductShowcase } from "./sections/ProductShowcase";
 import { Testimonials } from "./sections/Testimonials";
 import {Integrations} from "./sections/Integrations"
 import {Faqs} from './sections/Faqs';
-import { TechAutomation } from "./pages/TechAutomation";
+import { Analytics } from "./sections/Analytics";
+import { Gamification } from "./sections/Gamification";
+// import { TechAutomation } from "./pages/TechAutomation";
 
 function App() {
 
@@ -20,6 +22,8 @@ function App() {
       <Hero />
       <LogoTicker />
       <ProductShowcase />
+      <Analytics />
+      <Gamification />
       <Testimonials />
       <Features />
       <Integrations/>

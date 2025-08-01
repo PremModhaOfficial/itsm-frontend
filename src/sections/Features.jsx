@@ -6,16 +6,17 @@ import avatar3 from "../assets/images/avatar-lula-meyers.jpg";
 // import ellipsis from "../assets/icons/ellipsis.svg";
 import Key from "../components/Key";
 import Avatar from "../components/Avatar";
+import ComparisonTable from "../components/ComparisonTable";
 import { motion } from "framer-motion";
 
 const features = [
-  "Asset Library",
-  "Code Preview",
-  "Flow Mode",
-  "Smart Sync",
-  "Auto Layout",
-  "Fast Search",
-  "Smart Guides",
+  "Smart Routing",
+  "Skill Tracking",
+  "Performance Analytics",
+  "Gamification",
+  "AI Insights",
+  "SLA Optimization",
+  "Dynamic Profiles",
 ];
 
 const parentVariants = {
@@ -42,17 +43,17 @@ export function Features() {
     <section className="py-24 justify-items-center">
       <div className="container">
         <div className="flex justify-center">
-          <Tag>Features</Tag>
+          <Tag>Key Features</Tag>
         </div>
 
         <h2 className="text-6xl font-medium text-center mt-6 max-w-2xl m-auto">
-          Where power meets <span className="text-lime-400">simplicity</span>
+          Where AI meets <span className="text-blue-600">efficiency</span>
         </h2>
 
         <motion.div variants={parentVariants} initial="hidden" animate="visible">
           <div className="mt-12 grid grid-cols-1 md:grid-cols-4 lg:grid-cols-3 gap-8">
 
-            {/* Real-time collaboration */}
+            {/* Smart Ticket Routing */}
             <motion.div
               variants={cardVariants}
               initial="hidden"
@@ -60,18 +61,18 @@ export function Features() {
               viewport={{ once: true, amount: 0.2 }}
             >
               <FeatureCard
-                title="Real-time collaboration"
-                description="Work together seamlessly with conflict-free team editing"
+                title="Smart Ticket Routing"
+                description="AI-powered matching that assigns tickets to the best-fit technician based on live skill tags and performance history"
                 className="md:col-span-2 lg:col-span-1"
               >
                 <div className="aspect-video flex items-center justify-center">
                   <Avatar className="z-40">
                     <img src={avatar1} alt="Avatar 1" className="rounded-full" />
                   </Avatar>
-                  <Avatar className="-ml-6 border-indigo-500 z-30">
+                  <Avatar className="-ml-6 border-blue-500 z-30">
                     <img src={avatar2} alt="Avatar 2" className="rounded-full" />
                   </Avatar>
-                  <Avatar className="-ml-6 border-amber-500 z-20">
+                  <Avatar className="-ml-6 border-indigo-500 z-20">
                     <img src={avatar3} alt="Avatar 3" className="rounded-full" />
                   </Avatar>
                   <Avatar className="-ml-6 border-transparent z-10">
@@ -83,7 +84,7 @@ export function Features() {
               </FeatureCard>
             </motion.div>
 
-            {/* Interactive prototyping */}
+            {/* Performance Analytics */}
             <motion.div
               variants={cardVariants}
               initial="hidden"
@@ -91,23 +92,23 @@ export function Features() {
               viewport={{ once: true, amount: 0.2 }}
             >
               <FeatureCard
-                title="Interactive prototyping"
-                description="Engage your clients with prototypes that react to user actions"
+                title="Performance Analytics"
+                description="Track resolution quality, depth, and outcomes with AI-driven insights for continuous improvement"
                 className="md:col-span-2 lg:col-span-1 group transition duration-500"
               >
                 <div className="aspect-video flex items-center justify-center">
                   <p className="group-hover:text-gray-600 transition duration-500 text-4xl font-extrabold text-gray-400 text-center">
-                    We've achieved{" "}
-                    <span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-                      incredible
+                    Achieve{" "}
+                    <span className="bg-gradient-to-r from-blue-400 to-indigo-400 bg-clip-text text-transparent">
+                      optimal
                     </span>{" "}
-                    growth this year
+                    SLA compliance
                   </p>
                 </div>
               </FeatureCard>
             </motion.div>
 
-            {/* Keyboard quick actions */}
+            {/* Skill Evolution */}
             <motion.div
               variants={cardVariants}
               initial="hidden"
@@ -115,19 +116,19 @@ export function Features() {
               viewport={{ once: true, amount: 0.2 }}
             >
               <FeatureCard
-                title="Keyboard quick actions"
-                description="Powerful commands to make design quickly"
+                title="Dynamic Skill Evolution"
+                description="Automatically update technician profiles with every ticket closed for intelligent growth tracking"
                 className="group md:col-span-2 md:col-start-2 lg:col-span-1 lg:col-start-auto"
               >
                 <div className="aspect-video flex justify-center items-center gap-4">
-                  <Key className="w-28 outline outline-2 outline-transparent group-hover:outline-lime-400 transition-all duration-500 outline-offset-2 group-hover:translate-y-1">
-                    shift
+                  <Key className="w-28 outline outline-2 outline-transparent group-hover:outline-blue-400 transition-all duration-500 outline-offset-2 group-hover:translate-y-1">
+                    skill
                   </Key>
-                  <Key className="outline outline-2 outline-transparent group-hover:outline-lime-400 transition-all duration-500 outline-offset-2 group-hover:translate-y-1 delay-150">
-                    alt
+                  <Key className="outline outline-2 outline-transparent group-hover:outline-blue-400 transition-all duration-500 outline-offset-2 group-hover:translate-y-1 delay-150">
+                    +
                   </Key>
-                  <Key className="outline outline-2 outline-transparent group-hover:outline-lime-400 transition-all duration-500 outline-offset-2 group-hover:translate-y-1 delay-300">
-                    C
+                  <Key className="outline outline-2 outline-transparent group-hover:outline-blue-400 transition-all duration-500 outline-offset-2 group-hover:translate-y-1 delay-300">
+                    grow
                   </Key>
                 </div>
               </FeatureCard>
@@ -142,12 +143,17 @@ export function Features() {
               className="bg-white border border-gray-200 inline-flex px-3 md:px-5 md:py-2 py-1.5 rounded-2xl gap-3 items-center hover:scale-105 transition duration-500 group shadow-sm"
               key={feature}
             >
-              <span className="bg-lime-400 text-white size-5 rounded-full inline-flex items-center justify-center text-xl group-hover:rotate-45 transition duration-500">
+              <span className="bg-blue-500 text-white size-5 rounded-full inline-flex items-center justify-center text-xl group-hover:rotate-45 transition duration-500">
                 &#10038;
               </span>
               <span className="font-medium md:text-lg text-gray-800">{feature}</span>
             </div>
           ))}
+        </div>
+
+        {/* Comparison Table */}
+        <div className="mt-16">
+          <ComparisonTable />
         </div>
       </div>
     </section>

@@ -33,18 +33,17 @@ export const Hero = () => {
       <div className="container">
         <div className="md:flex items-center">
           <div className="md:w-[490px] px-8">
-            <div className="tag">Version 2.0 is here</div>
+            <div className="tag">AI-Powered ITSM Solution</div>
             <h1 className="text-5xl md:text-7xl font-bold tracking-tigher bg-gradient-to-b from-black to-[#001e80] text-transparent bg-clip-text mt-6">
-              Pathway to productivity
+              Gamified Skill Intelligence for Smart Ticket Assignment
             </h1>
             <p className="text-xl text-[#010d3e] tracking-tight mt-6">
-              Celebrate the joy of accomplishment with an app designed to track
-              your progress, motivate your efforts, and celebrate your success.
+              Transform your IT support with AI-powered ticket routing that matches skills, tracks performance, and evolves technician profiles dynamically for optimal SLA compliance.
             </p>
             <div className="flex gap-1 items-center mt-[30px]">
-              <button className="btn btn-primary">Get for free</button>
+              <button className="btn btn-primary">Start Free Trial</button>
               <button className="btn btn-text gap-1 flex items-center">
-                <span>Learn more</span>
+                <span>See How It Works</span>
                 <img
                   src={arrowIcon}
                   alt="Arrow icon"

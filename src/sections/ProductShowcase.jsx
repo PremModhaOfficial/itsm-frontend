@@ -23,14 +23,13 @@ export const ProductShowcase = () => {
       <div className="container">
         <div className="section-heading">
           <div className="flex justify-center items-center">
-            <div className="tag">Boost your productivity</div>
+            <div className="tag">Skill-Tag Auto-Assign</div>
           </div>
           <h2 className="section-title mt-5">
-            A more effective way to track progress
+            Intelligent ticket routing that evolves with your team
           </h2>
           <p className="section-description mt-5">
-            Effortlessly turn your ideas into a fully functional, responsive SaaS
-            website in just minutes with this template.
+            Our AI-powered system analyzes ticket content, maps required skills, and automatically assigns tickets to the most qualified technicians while tracking performance and evolving skill profiles dynamically.
           </p>
         </div>
 

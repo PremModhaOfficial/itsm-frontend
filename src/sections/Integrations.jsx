@@ -10,34 +10,34 @@ import githubIcon from "../assets/images/github-logo.svg";
 
 const integrations = [
   {
-    name: "Figma",
+    name: "ServiceNow",
     icon: figmaIcon,
-    description: "Figma is a collaborative interface design tool.",
+    description: "Seamless integration with ServiceNow for comprehensive ITSM workflows.",
   },
   {
-    name: "Notion",
+    name: "Jira Service Management",
     icon: notionIcon,
-    description: "Notion is an all-in-one workspace for notes and docs.",
+    description: "Connect with Jira Service Management for agile service desk operations.",
   },
   {
     name: "Slack",
     icon: slackIcon,
-    description: "Slack is a powerful team communication platform.",
+    description: "Real-time notifications and team collaboration through Slack integration.",
   },
   {
-    name: "Relume",
+    name: "Microsoft Teams",
     icon: relumeIcon,
-    description: "Relume is a no-code website builder and design system.",
+    description: "Enhanced communication and ticket updates via Microsoft Teams.",
   },
   {
-    name: "Framer",
+    name: "Zendesk",
     icon: framerIcon,
-    description: "Framer is a professional website prototyping tool.",
+    description: "Integrate with Zendesk for unified customer support management.",
   },
   {
-    name: "GitHub",
+    name: "Freshdesk",
     icon: githubIcon,
-    description: "GitHub is the leading platform for code collaboration.",
+    description: "Connect with Freshdesk for streamlined ticket management and automation.",
   },
 ];
 
@@ -48,13 +48,12 @@ export function Integrations() {
         <div className="grid lg:grid-cols-2 items-center lg:gap-16">
           {/* Left Column */}
           <div>
-            <Tag>Integration</Tag>
+            <Tag>Integrations</Tag>
             <h2 className="text-6xl font-medium mt-6">
-              Plays well with <span className="text-lime-400">others</span>
+              Works with your <span className="text-blue-600">existing tools</span>
             </h2>
             <p className="text-gray-600 mt-4 text-lg">
-              Layers seamlessly connects with your favourite tools and
-              platforms. It's easy to plug into any workflow and collaborate.
+              Our AI-powered skill intelligence platform integrates seamlessly with your existing ITSM tools and platforms, enhancing your current workflow without disruption.
             </p>
           </div>
 

@@ -14,58 +14,58 @@ import avatar9 from "../assets/avatar-9.png";
 
 const testimonials = [
   {
-    text: "As a seasoned designer always on the lookout for innovative tools, Framer.com instantly grabbed my attention.",
+    text: "The AI-powered skill matching has reduced our ticket assignment time by 70% while improving resolution quality significantly.",
     imageSrc: avatar1,
-    name: "Jamie Rivera",
-    username: "@jamietechguru00",
+    name: "Sarah Chen",
+    username: "@sarah_itsm",
   },
   {
-    text: "Our team's productivity has skyrocketed since we started using this tool.",
+    text: "Our technicians are more motivated than ever with the gamified skill tracking and performance recognition system.",
     imageSrc: avatar2,
-    name: "Josh Smith",
-    username: "@jjsmith",
+    name: "Mike Rodriguez",
+    username: "@mike_techlead",
   },
   {
-    text: "This app has completely transformed how I manage my projects and deadlines.",
+    text: "The dynamic skill evolution feature has transformed how we identify training needs and career development opportunities.",
     imageSrc: avatar3,
-    name: "Morgan Lee",
-    username: "@morganleewhiz",
+    name: "Lisa Thompson",
+    username: "@lisa_support",
   },
   {
-    text: "I was amazed at how quickly we were able to integrate this app into our workflow.",
+    text: "SLA compliance improved by 85% within the first month of implementing this intelligent routing system.",
     imageSrc: avatar4,
-    name: "Casey Jordan",
-    username: "@caseyj",
+    name: "David Kumar",
+    username: "@david_ops",
   },
   {
-    text: "Planning and executing events has never been easier. This app helps me keep track of all the moving parts, ensuring nothing slips through the cracks.",
+    text: "The performance analytics provide insights we never had before, helping us optimize our support operations continuously.",
     imageSrc: avatar5,
-    name: "Taylor Kim",
-    username: "@taylorkimm",
+    name: "Emma Wilson",
+    username: "@emma_itsm",
   },
   {
-    text: "The customizability and integration capabilities of this app are top-notch.",
+    text: "Finally, a system that recognizes quality over speed. Our best technicians are getting the recognition they deserve.",
     imageSrc: avatar6,
-    name: "Riley Smith",
-    username: "@rileysmith1",
+    name: "Alex Johnson",
+    username: "@alex_tech",
   },
   {
-    text: "Adopting this app for our team has streamlined our project management and improved communication across the board.",
+    text: "The automated skill profile updates save us hours of manual tracking while providing more accurate technician assessments.",
     imageSrc: avatar7,
-    name: "Jordan Patels",
-    username: "@jpatelsdesign",
+    name: "Jordan Patel",
+    username: "@jordan_support",
   },
   {
-    text: "With this app, we can easily assign tasks, track progress, and manage documents all in one place.",
+    text: "Our team's growth trajectory has accelerated with the AI-driven insights into performance gaps and strengths.",
     imageSrc: avatar8,
     name: "Sam Dawson",
-    username: "@dawsontechtips",
+    username: "@sam_itsm",
   },
   {
-    text: "Its user-friendly interface and robust features support our diverse needs.",
+    text: "The intelligent routing ensures our most skilled technicians handle complex issues while newer team members learn gradually.",
     imageSrc: avatar9,
     name: "Casey Harper",
-    username: "@casey09",
+    username: "@casey_tech",
   },
 ];
 
@@ -119,12 +119,11 @@ export const Testimonials = () => {
       <div className="container">
         <div className="section-heading">
           <div className="flex justify-center">
-            <div className="tag">Testimonials</div>
+            <div className="tag">Success Stories</div>
           </div>
-          <h2 className="section-title mt-5">What our users say</h2>
+          <h2 className="section-title mt-5">What IT leaders say</h2>
           <p className="section-description">
-            From intuitive design to powerful features, our app has become an
-            essential tool for users around the world.
+            IT support managers and technicians share their experience with our AI-powered skill intelligence platform.
           </p>
         </div>
 
