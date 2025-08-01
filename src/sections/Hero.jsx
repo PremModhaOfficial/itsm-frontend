@@ -11,7 +11,7 @@ import cogImage from "../assets/cog.png";
 import cylinderImage from "../assets/cylinder.png";
 import noodleImage from "../assets/noodle.png";
 
-export const Hero = () => {
+export const Hero = ({ onGetStartedClick }) => {
   const heroRef = useRef(null);
 
   const { scrollYProgress } = useScroll({
@@ -41,7 +41,12 @@ export const Hero = () => {
               Transform your IT support with AI-powered ticket routing that matches skills, tracks performance, and evolves technician profiles dynamically for optimal SLA compliance.
             </p>
             <div className="flex gap-1 items-center mt-[30px]">
-              <button className="btn btn-primary">Start Free Trial</button>
+              <button 
+                onClick={onGetStartedClick}
+                className="btn btn-primary hover:bg-[#001e80] transition-colors"
+              >
+                Get Started
+              </button>
               <button className="btn btn-text gap-1 flex items-center">
                 <span>See How It Works</span>
                 <img

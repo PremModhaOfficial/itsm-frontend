@@ -5,7 +5,7 @@ import arrowRight from "../assets/arrow-right.svg";
 import logo from "../assets/logosaas.png";
 import menuIcon from "../assets/menu.svg";
 
-export const Header = () => {
+export const Header = ({ onGetStartedClick }) => {
   return (
     <header className="sticky top-0 backdrop-blur-sm z-20">
       <div className="flex justify-center items-center py-3 bg-black text-white text-sm gap-3">
@@ -31,11 +31,14 @@ export const Header = () => {
             <nav className="hidden md:flex gap-6 text-black/60 items-center">
               <a href="#">Solutions</a>
               <a href="#">Features</a>
-              <a href="#">Integrations</a>
-              <a href="#">Pricing</a>
-              <a href="#">Support</a>
-              <button className="bg-black text-white px-4 py-2 rounded-lg font-medium inline-flex align-items justify-center tracking-tight">
-                Start Free Trial
+              <a href="#">Customers</a>
+              <a href="#">Updates</a>
+              <a href="#">Help</a>
+              <button 
+                onClick={onGetStartedClick}
+                className="bg-black text-white px-4 py-2 rounded-lg font-medium inline-flex align-items justify-center tracking-tight hover:bg-[#001e80] transition-colors"
+              >
+                Get Started
               </button>
             </nav>
           </div>

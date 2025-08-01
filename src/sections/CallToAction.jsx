@@ -5,7 +5,7 @@ import starImage from "../assets/star.png";
 import springImage from "../assets/spring.png";
 import arrowRight from "../assets/arrow-right.svg";
 
-export const CallToAction = () => {
+export const CallToAction = ({ onGetStartedClick }) => {
   const sectionRef = useRef(null);
 
   const { scrollYProgress } = useScroll({
@@ -42,7 +42,12 @@ export const CallToAction = () => {
           />
         </div>
         <div className="flex gap-2 mt-10 justify-center">
-          <button className="btn btn-primary">Start Free Trial</button>
+          <button 
+            onClick={onGetStartedClick}
+            className="btn btn-primary hover:bg-[#001e80] transition-colors"
+          >
+            Get Started
+          </button>
           <button className="btn btn-text gap-1 flex items-center">
             <span>Schedule Demo</span>
             <img src={arrowRight} alt="Arrow right" className="h-5 w-5" />
