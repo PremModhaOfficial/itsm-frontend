@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 // Replace with your actual relative paths
 import logo from "../assets/logosaas.png";
@@ -13,16 +14,18 @@ export const Footer = () => {
     <footer className="bg-black text-[#BCBCBC] text-sm py-10 text-center justify-items-center">
       <div className="container">
         <div className="inline-flex relative before:content-[''] before:top-2 before:bottom-0 before:w-full before:blur before:bg-[linear-gradient(to_right,#f87bff,#FB92CF,#FFDD9B,#C2F0B1,#2FD8FE)] before:absolute">
-          <img src={logo} height={40} alt="Skill Intelligence Logo" className="relative" />
+          <Link to="/">
+            <img src={logo} height={40} alt="SaaS logo" className="relative" />
+          </Link>
         </div>
 
         <nav className="flex flex-col md:flex-row md:justify-center gap-6 mt-6">
-          <a href="#">Solutions</a>
-          <a href="#">Features</a>
-          <a href="#">Integrations</a>
-          <a href="#">Pricing</a>
-          <a href="#">Support</a>
-          <a href="#">Careers</a>
+          <Link to="/about" className="hover:text-white transition-colors">About</Link>
+          <Link to="/" className="hover:text-white transition-colors">Features</Link>
+          <Link to="/" className="hover:text-white transition-colors">Customers</Link>
+          <Link to="/" className="hover:text-white transition-colors">Pricing</Link>
+          <Link to="/" className="hover:text-white transition-colors">Help</Link>
+          <Link to="/" className="hover:text-white transition-colors">Careers</Link>
         </nav>
 
         <div className="flex justify-center gap-6 mt-6">
