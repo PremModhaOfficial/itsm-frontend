@@ -21,6 +21,7 @@ export const TechnicianProfilePage = () => {
   const { id } = useParams();
   const [isEditing, setIsEditing] = useState(false);
   const [editForm, setEditForm] = useState({});
+  const [showPerformanceModal, setShowPerformanceModal] = useState(false);
 
   // Mock data based on the Sequelize schema
   const technician = {
