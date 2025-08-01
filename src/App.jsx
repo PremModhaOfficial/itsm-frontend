@@ -1,19 +1,32 @@
 import './App.css'
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { Home } from './pages/Home';
-import { About } from './pages/About';
-import { Dashboard } from './pages/Dashboard';
+
+import { CallToAction } from "./sections/CallToAction";
+import { Faqs } from './sections/Faqs';
+import { Features } from './sections/Features';
+import { Footer } from "./sections/Footer";
+import { Header } from "./sections/Header";
+import { Hero } from "./sections/Hero";
+import { Integrations } from "./sections/Integrations"
+import { LogoTicker } from "./sections/LogoTicker";
+import { ProductShowcase } from "./sections/ProductShowcase";
+import { Testimonials } from "./sections/Testimonials";
 
 function App() {
+
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-      </Routes>
-    </Router>
-  );
+    <div className='antialiased bg-[#EAEEFE]'>
+      <Header />
+      <Hero />
+      <LogoTicker />
+      <ProductShowcase />
+      <Testimonials />
+      <Features />
+      <Integrations />
+      <Faqs />
+      <CallToAction />
+      <Footer />
+    </div>
+  )
 }
 
 
