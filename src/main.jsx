@@ -7,6 +7,7 @@ import TicketForm from './components/TicketForm';
 import { About } from './pages/About';
 import { TechnicianProfilePage } from './pages/TechnicianProfilePage.jsx';
 import { Dashboard } from './pages/Dashboard.jsx';
+import { TechnicianPerformancePage } from './pages/TechnicianPerformancePage.jsx';
 
 import { HomePage } from './pages/HomePage.jsx';
 createRoot(document.getElementById('root')).render(
@@ -16,6 +17,7 @@ createRoot(document.getElementById('root')).render(
                 <Route path='/' element={<HomePage />} />
                 <Route path='/ticket' element={<TicketForm />} />
                 <Route path="/technician/:id" element={<TechnicianProfilePage />} />
+                <Route path="/technician/:id/performance" element={<TechnicianPerformancePage />} />
                 <Route path='/about' element={<About />} />
                 <Route path='/dashboard' element={<Dashboard />} />
             </Routes>
