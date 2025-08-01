@@ -18,7 +18,7 @@ export const CallToAction = ({ onGetStartedClick }) => {
   return (
     <section
       ref={sectionRef}
-      className="bg-gradient-to-b from-white to-[#D2DCFF] py-24 overflow-x-clip justify-items-center"
+      className="bg-gradient-to-b from-white to-[#D2DCFF] py-52 overflow-x-clip justify-items-center"
     >
       <div className="container">
         <div className="section-heading relative">

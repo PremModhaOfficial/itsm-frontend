@@ -75,7 +75,7 @@ export function Features() {
                     <img src={avatar3} alt="Avatar 3" className="rounded-full" />
                   </Avatar>
                   <Avatar className="-ml-6 border-transparent z-10">
-                    <div className="rounded-full flex justify-center items-center size-full bg-neutral-700">
+                    <div className="rounded-full flex justify-center items-center size-full bg-gray-300">
                       {/* <img src={ellipsis} alt="Ellipsis" className="w-6 h-6" /> */}
                     </div>
                   </Avatar>
@@ -96,7 +96,7 @@ export function Features() {
                 className="md:col-span-2 lg:col-span-1 group transition duration-500"
               >
                 <div className="aspect-video flex items-center justify-center">
-                  <p className="group-hover:text-white/40 transition duration-500 text-4xl font-extrabold text-white/20 text-center">
+                  <p className="group-hover:text-gray-600 transition duration-500 text-4xl font-extrabold text-gray-400 text-center">
                     We've achieved{" "}
                     <span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
                       incredible
@@ -139,13 +139,13 @@ export function Features() {
         <div className="my-8 flex items-center justify-center flex-wrap gap-2 max-w-3xl m-auto">
           {features.map((feature) => (
             <div
-              className="bg-neutral-900 border border-white/10 inline-flex px-3 md:px-5 md:py-2 py-1.5 rounded-2xl gap-3 items-center hover:scale-105 transition duration-500 group"
+              className="bg-white border border-gray-200 inline-flex px-3 md:px-5 md:py-2 py-1.5 rounded-2xl gap-3 items-center hover:scale-105 transition duration-500 group shadow-sm"
               key={feature}
             >
-              <span className="bg-lime-400 text-neutral-900 size-5 rounded-full inline-flex items-center justify-center text-xl group-hover:rotate-45 transition duration-500">
+              <span className="bg-lime-400 text-white size-5 rounded-full inline-flex items-center justify-center text-xl group-hover:rotate-45 transition duration-500">
                 &#10038;
               </span>
-              <span className="font-medium md:text-lg">{feature}</span>
+              <span className="font-medium md:text-lg text-gray-800">{feature}</span>
             </div>
           ))}
         </div>

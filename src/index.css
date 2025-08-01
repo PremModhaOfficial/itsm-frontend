@@ -3,6 +3,10 @@
 @tailwind utilities;
 
 @layer components {
+  .container {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+  
   .btn {
     @apply bg-black text-white px-4 py-2 rounded-lg font-medium inline-flex items-center justify-center tracking-tight;
   }

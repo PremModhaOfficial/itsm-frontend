@@ -25,7 +25,7 @@ const IntegrationColumn = (props) => {
           {integrations.map((integration) => (
             <div
               key={integration.name}
-              className="bg-neutral-900 border border-white/10 rounded-3xl p-6"
+              className="bg-white border border-gray-200 rounded-3xl p-6 shadow-sm"
             >
               <div className="flex justify-center">
                 <img
@@ -34,8 +34,8 @@ const IntegrationColumn = (props) => {
                   alt={`${integration.name}-icon`}
                 />
               </div>
-              <h3 className="text-3xl text-center mt-6">{integration.name}</h3>
-              <p className="text-center text-white/50 mt-2">
+              <h3 className="text-3xl text-center mt-6 text-gray-900">{integration.name}</h3>
+              <p className="text-center text-gray-600 mt-2">
                 {integration.description}
               </p>
             </div>

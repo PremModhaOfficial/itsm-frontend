@@ -52,10 +52,10 @@ export function Faqs() {
             <div
               key={faq.question}
               onClick={() => setSelectedIndex(index)}
-              className="bg-neutral-900 rounded-2xl border border-white/10 p-6 cursor-pointer"
+              className="bg-white rounded-2xl border border-gray-200 p-6 cursor-pointer shadow-sm hover:shadow-md transition-shadow"
             >
               <div className="flex justify-between items-start">
-                <h3 className="font-medium m-0">{faq.question}</h3>
+                <h3 className="font-medium m-0 text-gray-900">{faq.question}</h3>
                 <Plus
                   size={30}
                   className={twMerge(
@@ -73,7 +73,7 @@ export function Faqs() {
                     exit={{ height: 0, marginTop: 0 }}
                     className="overflow-hidden"
                   >
-                    <p className="text-white/50">{faq.answer}</p>
+                    <p className="text-gray-600">{faq.answer}</p>
                   </motion.div>
                 )}
               </AnimatePresence>
