@@ -3,7 +3,6 @@ import './App.css'
 import { useState } from 'react';
 
 import { CallToAction } from "./sections/CallToAction";
-import { Faqs } from './sections/Faqs';
 import { Features } from './sections/Features';
 import { Footer } from "./sections/Footer";
 import { Header } from "./sections/Header";
@@ -12,9 +11,9 @@ import { Integrations } from "./sections/Integrations"
 import { LogoTicker } from "./sections/LogoTicker";
 import { ProductShowcase } from "./sections/ProductShowcase";
 import { Testimonials } from "./sections/Testimonials";
-import { Integrations } from "./sections/Integrations"
 import { Faqs } from './sections/Faqs';
 import { LoginModal } from "./components/LoginModal";
+import { Analytics } from './sections/Analytics';
 
 function App() {
     const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
@@ -33,14 +32,14 @@ function App() {
             <Hero onGetStartedClick={handleGetStartedClick} />
             <LogoTicker />
             <ProductShowcase />
-            <Pricing />
+            <Analytics />
             <Testimonials />
-            <CallToAction onGetStartedClick={handleGetStartedClick} />
-            <Footer />
             <Features />
             <Integrations />
             <Faqs />
             <LoginModal isOpen={isLoginModalOpen} onClose={handleCloseLoginModal} />
+            <CallToAction onGetStartedClick={handleGetStartedClick} />
+            <Footer />
         </div>
     )
 }

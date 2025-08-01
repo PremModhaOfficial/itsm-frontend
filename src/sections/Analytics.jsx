@@ -1,5 +1,4 @@
 import React from "react";
-import { motion } from "framer-motion";
 import Tag from "../components/Tag";
 import AnalyticsCard from "../components/AnalyticsCard";
 import SkillChart from "../components/SkillChart";
@@ -144,7 +143,7 @@ export const Analytics = () => {
               skills={skillData}
               title="Team Skill Coverage"
             />
-                        <PerformanceMetric
+            <PerformanceMetric
               metric="Knowledge Base Articles"
               value={45}
               target={50}
