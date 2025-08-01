@@ -63,7 +63,7 @@ export const Hero = ({ onGetStartedClick }) => {
             <motion.img
               src={cogImage}
               alt="Cog image"
-              className="md:absolute md:h-full md:w-auto md:max-w-none md:-left-6 lg:left-0"
+              className="md:absolute md:h-[500px] md:w-auto md:max-w-none md:-left-6 lg:left-0"
               animate={{ translateY: [-30, 30] }}
               transition={{
                 repeat: Infinity,
