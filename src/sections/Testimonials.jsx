@@ -115,7 +115,7 @@ const TestimonialsColumn = ({ className = "", testimonials, duration = 10 }) => 
 
 export const Testimonials = () => {
   return (
-    <section className="bg-white justify-items-center">
+    <section className="bg-white justify-items-center py-36">
       <div className="container">
         <div className="section-heading">
           <div className="flex justify-center">

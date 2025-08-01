@@ -52,7 +52,7 @@ export function Integrations() {
             <h2 className="text-6xl font-medium mt-6">
               Plays well with <span className="text-lime-400">others</span>
             </h2>
-            <p className="text-white/50 mt-4 text-lg">
+            <p className="text-gray-600 mt-4 text-lg">
               Layers seamlessly connects with your favourite tools and
               platforms. It's easy to plug into any workflow and collaborate.
             </p>

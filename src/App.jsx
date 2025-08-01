@@ -1,12 +1,14 @@
 import './App.css'
-import { useState } from 'react';
+
+
 import { CallToAction } from "./sections/CallToAction";
+import { Faqs } from './sections/Faqs';
 import { Features } from './sections/Features';
 import { Footer } from "./sections/Footer";
 import { Header } from "./sections/Header";
 import { Hero } from "./sections/Hero";
+import { Integrations } from "./sections/Integrations"
 import { LogoTicker } from "./sections/LogoTicker";
-import { Pricing } from "./sections/Pricing";
 import { ProductShowcase } from "./sections/ProductShowcase";
 import { Testimonials } from "./sections/Testimonials";
 import { Integrations } from "./sections/Integrations"
@@ -16,48 +18,23 @@ import { BrowserRouter, Routes, Route } from 'react-router';
 import TicketForm from './components/TicketForm';
 import TicketDetailsView from './components/TicketDetailsView';
 
-function Landing() {
-    const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
-
-    const handleGetStartedClick = () => {
-        setIsLoginModalOpen(true);
-    };
-
-    const handleCloseLoginModal = () => {
-        setIsLoginModalOpen(false);
-    };
+function App() {
 
     return (
         <div className='antialiased bg-[#EAEEFE]'>
-            <Header onGetStartedClick={handleGetStartedClick} />
-            <Hero onGetStartedClick={handleGetStartedClick} />
+            <Header />
+            <Hero />
             <LogoTicker />
             <ProductShowcase />
-            <Pricing />
             <Testimonials />
-            <CallToAction onGetStartedClick={handleGetStartedClick} />
-            <Footer />
             <Features />
             <Integrations />
             <Faqs />
-            <LoginModal isOpen={isLoginModalOpen} onClose={handleCloseLoginModal} />
+            <CallToAction />
+            <Footer />
         </div>
     )
 }
 
-
-function App() {
-
-
-    return (
-        <BrowserRouter>
-            <Routes>
-                <Route path='/' element={<Landing />} />
-                <Route path='/ticket' element={<TicketForm />} />
-                <Route path='/ticketDetails' element={<TicketDetailsView />} />
-            </Routes>
-        </BrowserRouter>
-    )
-}
 
 export default App
