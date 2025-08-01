@@ -12,8 +12,9 @@ import { Testimonials } from "./sections/Testimonials";
 import { Integrations } from "./sections/Integrations"
 import { Faqs } from './sections/Faqs';
 import { LoginModal } from "./components/LoginModal";
-import { BrowserRouter, Routes, Route } from 'react-router';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import TicketForm from './components/TicketForm';
+import { About } from './pages/About';
 
 function Landing() {
     const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
@@ -53,6 +54,7 @@ function App() {
             <Routes>
                 <Route path='/' element={<Landing />} />
                 <Route path='/ticket' element={<TicketForm />} />
+                <Route path='/about' element={<About />} />
             </Routes>
         </BrowserRouter>
     )
