@@ -1,7 +1,5 @@
 import './App.css'
-import { TechnicianProfilePage } from './pages/TechnicianProfilePage';
-import { useState } from 'react';
-import { CallToAction } from "./sections/CallToAction";
+
 
 import { CallToAction } from "./sections/CallToAction";
 import { Faqs } from './sections/Faqs';
