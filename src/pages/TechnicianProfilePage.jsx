@@ -1,18 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { 
-  ArrowLeft, 
-  Edit, 
-  Save, 
-  X, 
-  Star, 
-  Clock, 
-  Activity, 
-  Calendar, 
-  CheckCircle, 
+import {
+  ArrowLeft,
+  Edit,
+  Save,
+  X,
+  Star,
+  Clock,
+  Activity,
+  Calendar,
+  CheckCircle,
   User,
   TrendingUp,
-  Eye
 } from 'lucide-react';
 import Button from '../components/Button';
 import Avatar from '../components/Avatar';
@@ -287,7 +286,7 @@ export const TechnicianProfilePage = () => {
                     Skills & Expertise
                   </h3>
                 </div>
-                <Button 
+                <Button
                   onClick={handleViewPerformance}
                   className="bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 text-white border-0 hover:from-emerald-600 hover:via-teal-600 hover:to-cyan-600 shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm"
                 >
@@ -309,9 +308,9 @@ export const TechnicianProfilePage = () => {
                       ></div>
                     </div>
                     <div className="text-xs text-gray-500 font-medium">
-                      {skill.percentage >= 90 ? 'Expert Level' : 
-                       skill.percentage >= 80 ? 'Advanced Level' : 
-                       skill.percentage >= 70 ? 'Intermediate Level' : 'Beginner Level'}
+                      {skill.percentage >= 90 ? 'Expert Level' :
+                        skill.percentage >= 80 ? 'Advanced Level' :
+                          skill.percentage >= 70 ? 'Intermediate Level' : 'Beginner Level'}
                     </div>
                   </div>
                 ))}
@@ -346,11 +345,11 @@ export const TechnicianProfilePage = () => {
                     ></div>
                   </div>
                   <div className="mt-2 text-xs text-gray-500">
-                    {technician.workload >= 80 ? 'High workload - Consider redistributing' : 
-                     technician.workload >= 60 ? 'Moderate workload' : 'Optimal workload'}
+                    {technician.workload >= 80 ? 'High workload - Consider redistributing' :
+                      technician.workload >= 60 ? 'Moderate workload' : 'Optimal workload'}
                   </div>
                 </div>
-                
+
                 <div className="grid grid-cols-2 gap-4">
                   <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl p-4 border border-blue-100 text-center">
                     <div className="text-2xl font-bold text-blue-600">{technician.assigned_tickets_total}</div>
@@ -361,17 +360,17 @@ export const TechnicianProfilePage = () => {
                     <div className="text-sm text-gray-600">Skills</div>
                   </div>
                 </div>
-                
+
                 <div className="bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl p-4 border border-purple-100">
                   <div className="flex items-center gap-3">
                     <Calendar size={16} className="text-purple-600" />
                     <div>
                       <div className="text-sm font-semibold text-gray-700">Member Since</div>
                       <div className="font-medium text-gray-900">
-                        {new Date(technician.created_at).toLocaleDateString('en-US', { 
-                          year: 'numeric', 
-                          month: 'long', 
-                          day: 'numeric' 
+                        {new Date(technician.created_at).toLocaleDateString('en-US', {
+                          year: 'numeric',
+                          month: 'long',
+                          day: 'numeric'
                         })}
                       </div>
                     </div>
@@ -406,9 +405,9 @@ export const TechnicianProfilePage = () => {
                     <div>
                       <div className="text-xs font-semibold text-gray-700">Last Updated</div>
                       <div className="text-sm font-medium text-gray-900">
-                        {new Date(technician.updated_at).toLocaleDateString('en-US', { 
-                          year: 'numeric', 
-                          month: 'short', 
+                        {new Date(technician.updated_at).toLocaleDateString('en-US', {
+                          year: 'numeric',
+                          month: 'short',
                           day: 'numeric',
                           hour: '2-digit',
                           minute: '2-digit'
@@ -666,9 +665,9 @@ export const TechnicianProfilePage = () => {
                         ></div>
                       </div>
                       <div className="mt-2 text-sm text-gray-600">
-                        {technician.workload >= 80 ? 'High workload - Consider redistributing' : 
-                         technician.workload >= 60 ? 'Moderate workload - Monitor for changes' : 
-                         'Optimal workload - Can handle more tickets'}
+                        {technician.workload >= 80 ? 'High workload - Consider redistributing' :
+                          technician.workload >= 60 ? 'Moderate workload - Monitor for changes' :
+                            'Optimal workload - Can handle more tickets'}
                       </div>
                     </div>
                   </div>
