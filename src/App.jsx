@@ -1,5 +1,6 @@
 import './App.css'
 
+import { useState } from 'react';
 
 import { CallToAction } from "./sections/CallToAction";
 import { Faqs } from './sections/Faqs';
@@ -11,13 +12,25 @@ import { Integrations } from "./sections/Integrations"
 import { LogoTicker } from "./sections/LogoTicker";
 import { ProductShowcase } from "./sections/ProductShowcase";
 import { Testimonials } from "./sections/Testimonials";
+import { LoginModal } from './components/LoginModal';
 
 function App() {
+    const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+
+    const handleGetStartedClick = () => {
+        setIsLoginModalOpen(true);
+    };
+
+    const handleCloseLoginModal = () => {
+        setIsLoginModalOpen(false);
+    };
+
 
     return (
         <div className='antialiased bg-[#EAEEFE]'>
-            <Header />
-            <Hero />
+            <Header onGetStartedClick={handleGetStartedClick} />
+            <Hero onGetStartedClick={handleGetStartedClick} />
+
             <LogoTicker />
             <ProductShowcase />
             <Testimonials />
@@ -25,6 +38,7 @@ function App() {
             <Integrations />
             <Faqs />
             <CallToAction />
+            <LoginModal isOpen={isLoginModalOpen} onClose={handleCloseLoginModal} />
             <Footer />
         </div>
     )
