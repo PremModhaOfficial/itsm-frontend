@@ -14,6 +14,7 @@ import { Faqs } from './sections/Faqs';
 import { LoginModal } from "./components/LoginModal";
 import { BrowserRouter, Routes, Route } from 'react-router';
 import TicketForm from './components/TicketForm';
+import TicketDetailsView from './components/TicketDetailsView';
 
 function Landing() {
     const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
@@ -53,6 +54,7 @@ function App() {
             <Routes>
                 <Route path='/' element={<Landing />} />
                 <Route path='/ticket' element={<TicketForm />} />
+                <Route path='/ticketDetails' element={<TicketDetailsView />} />
             </Routes>
         </BrowserRouter>
     )
