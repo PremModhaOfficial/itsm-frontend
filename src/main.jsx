@@ -10,6 +10,7 @@ import { TechnicianPerformancePage } from './pages/TechnicianPerformancePage.jsx
 import { Home } from './pages/Home.jsx';
 import { Dashboard } from './pages/Dashboard.jsx';
 import TicketDetailsPage from './components/TicketDetails.jsx';
+import UserList from './components/Test';
 
 createRoot(document.getElementById('root')).render(
     <StrictMode>
@@ -22,6 +23,7 @@ createRoot(document.getElementById('root')).render(
                 <Route path="/technician/:id/performance" element={<TechnicianPerformancePage />} />
                 <Route path='/about' element={<About />} />
                 <Route path='/dashboard' element={<Dashboard />} />
+                <Route path='/test' element={<UserList />} />
 
             </Routes>
         </BrowserRouter>
