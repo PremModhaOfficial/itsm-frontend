@@ -1,12 +1,15 @@
 import './App.css'
+
 import { useState } from 'react';
+
 import { CallToAction } from "./sections/CallToAction";
+import { Faqs } from './sections/Faqs';
 import { Features } from './sections/Features';
 import { Footer } from "./sections/Footer";
 import { Header } from "./sections/Header";
 import { Hero } from "./sections/Hero";
+import { Integrations } from "./sections/Integrations"
 import { LogoTicker } from "./sections/LogoTicker";
-import { Pricing } from "./sections/Pricing";
 import { ProductShowcase } from "./sections/ProductShowcase";
 import { Testimonials } from "./sections/Testimonials";
 import { Integrations } from "./sections/Integrations"
@@ -22,6 +25,7 @@ function App() {
     const handleCloseLoginModal = () => {
         setIsLoginModalOpen(false);
     };
+
 
     return (
         <div className='antialiased bg-[#EAEEFE]'>

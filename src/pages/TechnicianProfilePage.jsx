@@ -115,11 +115,8 @@ export const TechnicianProfilePage = () => {
   };
 
   const handleViewPerformance = () => {
-    setShowPerformanceModal(true);
-  };
-
-  const closePerformanceModal = () => {
-    setShowPerformanceModal(false);
+    // Navigate to the performance page
+    window.location.href = `/technician/${id}/performance`;
   };
 
   const handleExportReport = () => {
@@ -308,9 +305,9 @@ export const TechnicianProfilePage = () => {
                       ></div>
                     </div>
                     <div className="text-xs text-gray-500 font-medium">
-                      {skill.percentage >= 90 ? 'Expert Level' :
-                        skill.percentage >= 80 ? 'Advanced Level' :
-                          skill.percentage >= 70 ? 'Intermediate Level' : 'Beginner Level'}
+                      {skill.percentage >= 90 ? 'Expert Level' : 
+                       skill.percentage >= 80 ? 'Advanced Level' : 
+                       skill.percentage >= 70 ? 'Intermediate Level' : 'Beginner Level'}
                     </div>
                   </div>
                 ))}
@@ -345,11 +342,11 @@ export const TechnicianProfilePage = () => {
                     ></div>
                   </div>
                   <div className="mt-2 text-xs text-gray-500">
-                    {technician.workload >= 80 ? 'High workload - Consider redistributing' :
-                      technician.workload >= 60 ? 'Moderate workload' : 'Optimal workload'}
+                    {technician.workload >= 80 ? 'High workload - Consider redistributing' : 
+                     technician.workload >= 60 ? 'Moderate workload' : 'Optimal workload'}
                   </div>
                 </div>
-
+                
                 <div className="grid grid-cols-2 gap-4">
                   <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl p-4 border border-blue-100 text-center">
                     <div className="text-2xl font-bold text-blue-600">{technician.assigned_tickets_total}</div>
@@ -367,10 +364,10 @@ export const TechnicianProfilePage = () => {
                     <div>
                       <div className="text-sm font-semibold text-gray-700">Member Since</div>
                       <div className="font-medium text-gray-900">
-                        {new Date(technician.created_at).toLocaleDateString('en-US', {
-                          year: 'numeric',
-                          month: 'long',
-                          day: 'numeric'
+                        {new Date(technician.created_at).toLocaleDateString('en-US', { 
+                          year: 'numeric', 
+                          month: 'long', 
+                          day: 'numeric' 
                         })}
                       </div>
                     </div>
@@ -405,9 +402,9 @@ export const TechnicianProfilePage = () => {
                     <div>
                       <div className="text-xs font-semibold text-gray-700">Last Updated</div>
                       <div className="text-sm font-medium text-gray-900">
-                        {new Date(technician.updated_at).toLocaleDateString('en-US', {
-                          year: 'numeric',
-                          month: 'short',
+                        {new Date(technician.updated_at).toLocaleDateString('en-US', { 
+                          year: 'numeric', 
+                          month: 'short', 
                           day: 'numeric',
                           hour: '2-digit',
                           minute: '2-digit'
@@ -511,260 +508,6 @@ export const TechnicianProfilePage = () => {
           </div>
         </div>
       </div>
-
-      {/* Performance Modal */}
-      {showPerformanceModal && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl shadow-2xl max-w-3xl w-full max-h-[80vh] overflow-y-auto">
-            {/* Modal Header */}
-            <div className="sticky top-0 bg-gradient-to-r from-blue-500 to-purple-500 text-white p-4 rounded-t-2xl">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center">
-                    <TrendingUp size={24} />
-                  </div>
-                  <div>
-                    <h2 className="text-2xl font-bold">Performance Dashboard</h2>
-                    <p className="text-blue-100">Detailed analysis for {technician.name}</p>
-                  </div>
-                </div>
-                <button
-                  onClick={closePerformanceModal}
-                  className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center hover:bg-white/30 transition-colors"
-                >
-                  <X size={20} />
-                </button>
-              </div>
-            </div>
-
-            {/* Modal Content */}
-            <div className="p-4 space-y-4">
-              {/* Key Metrics Grid */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl p-4 border border-green-200">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-green-500 rounded-lg flex items-center justify-center">
-                      <Activity size={20} className="text-white" />
-                    </div>
-                    <div>
-                      <div className="text-2xl font-bold text-green-600">{technician.workload}%</div>
-                      <div className="text-sm text-gray-600">Workload</div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="bg-gradient-to-br from-blue-50 to-cyan-50 rounded-xl p-4 border border-blue-200">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-blue-500 rounded-lg flex items-center justify-center">
-                      <Clock size={20} className="text-white" />
-                    </div>
-                    <div>
-                      <div className="text-2xl font-bold text-blue-600">{technician.assigned_tickets_total}</div>
-                      <div className="text-sm text-gray-600">Total Tickets</div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-xl p-4 border border-purple-200">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-purple-500 rounded-lg flex items-center justify-center">
-                      <Star size={20} className="text-white" />
-                    </div>
-                    <div>
-                      <div className="text-2xl font-bold text-purple-600">{technician.skills.length}</div>
-                      <div className="text-sm text-gray-600">Skills</div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="bg-gradient-to-br from-orange-50 to-red-50 rounded-xl p-4 border border-orange-200">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-orange-500 rounded-lg flex items-center justify-center">
-                      <CheckCircle size={20} className="text-white" />
-                    </div>
-                    <div>
-                      <div className="text-2xl font-bold text-orange-600">{technician.skill_level}</div>
-                      <div className="text-sm text-gray-600">Level</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Skills Performance */}
-              <div className="bg-gray-50 rounded-xl p-4">
-                <h3 className="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
-                  <Star size={20} className="text-blue-600" />
-                  Skills Performance Analysis
-                </h3>
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                  <div>
-                    <h4 className="font-semibold text-gray-700 mb-3">Top Performing Skills</h4>
-                    <div className="space-y-3">
-                      {technician.skills
-                        .sort((a, b) => b.percentage - a.percentage)
-                        .slice(0, 3)
-                        .map((skill, index) => (
-                          <div key={skill.id} className="bg-white rounded-lg p-4 border border-gray-200">
-                            <div className="flex items-center justify-between mb-2">
-                              <span className="font-medium text-gray-900">{skill.name}</span>
-                              <span className="text-lg font-bold text-blue-600">{skill.percentage}%</span>
-                            </div>
-                            <div className="w-full bg-gray-200 rounded-full h-2">
-                              <div
-                                className="bg-gradient-to-r from-blue-500 to-purple-500 h-2 rounded-full transition-all duration-500"
-                                style={{ width: `${skill.percentage}%` }}
-                              ></div>
-                            </div>
-                          </div>
-                        ))}
-                    </div>
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-gray-700 mb-3">Skills Summary</h4>
-                    <div className="space-y-4">
-                      <div className="bg-white rounded-lg p-4 border border-gray-200">
-                        <div className="text-center">
-                          <div className="text-3xl font-bold text-green-600">
-                            {(technician.skills.reduce((sum, skill) => sum + skill.percentage, 0) / technician.skills.length).toFixed(1)}%
-                          </div>
-                          <div className="text-sm text-gray-600">Average Skill Level</div>
-                        </div>
-                      </div>
-                      <div className="bg-white rounded-lg p-4 border border-gray-200">
-                        <div className="text-center">
-                          <div className="text-3xl font-bold text-purple-600">
-                            {technician.skills.filter(skill => skill.percentage >= 80).length}
-                          </div>
-                          <div className="text-sm text-gray-600">High-Level Skills (80%+)</div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Workload Analysis */}
-              <div className="bg-gradient-to-br from-orange-50 to-red-50 rounded-xl p-4 border border-orange-200">
-                <h3 className="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
-                  <Activity size={20} className="text-orange-600" />
-                  Workload Analysis
-                </h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <div className="bg-white/80 rounded-lg p-4 border border-white/50">
-                      <div className="flex items-center justify-between mb-3">
-                        <span className="font-semibold text-gray-700">Current Workload</span>
-                        <span className={`text-lg font-bold ${getWorkloadColor(technician.workload)}`}>
-                          {technician.workload}%
-                        </span>
-                      </div>
-                      <div className="w-full bg-gray-200 rounded-full h-3">
-                        <div
-                          className={`h-3 rounded-full transition-all duration-500 ${getWorkloadBarColor(technician.workload)}`}
-                          style={{ width: `${technician.workload}%` }}
-                        ></div>
-                      </div>
-                      <div className="mt-2 text-sm text-gray-600">
-                        {technician.workload >= 80 ? 'High workload - Consider redistributing' :
-                          technician.workload >= 60 ? 'Moderate workload - Monitor for changes' :
-                            'Optimal workload - Can handle more tickets'}
-                      </div>
-                    </div>
-                  </div>
-                  <div className="space-y-3">
-                    <div className="bg-white/80 rounded-lg p-3 border border-white/50">
-                      <div className="flex items-center justify-between">
-                        <span className="text-sm text-gray-600">Active Tickets</span>
-                        <span className="font-semibold text-gray-900">{technician.assigned_tickets.length}</span>
-                      </div>
-                    </div>
-                    <div className="bg-white/80 rounded-lg p-3 border border-white/50">
-                      <div className="flex items-center justify-between">
-                        <span className="text-sm text-gray-600">Availability</span>
-                        <span className={`font-semibold ${getStatusColor(technician.availability_status)}`}>
-                          {technician.availability_status.replace('_', ' ')}
-                        </span>
-                      </div>
-                    </div>
-                    <div className="bg-white/80 rounded-lg p-3 border border-white/50">
-                      <div className="flex items-center justify-between">
-                        <span className="text-sm text-gray-600">Specialization</span>
-                        <span className="font-semibold text-gray-900">{technician.specialization}</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Recommendations */}
-              <div className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-xl p-4 border border-blue-200">
-                <h3 className="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
-                  <CheckCircle size={20} className="text-blue-600" />
-                  Recommendations
-                </h3>
-                <div className="space-y-3">
-                  {technician.workload >= 80 && (
-                    <div className="bg-white/80 rounded-lg p-4 border border-white/50 flex items-start gap-3">
-                      <div className="w-6 h-6 bg-orange-500 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                        <span className="text-white text-xs">⚠️</span>
-                      </div>
-                      <div>
-                        <div className="font-semibold text-gray-900">High Workload Alert</div>
-                        <div className="text-sm text-gray-600">Consider redistributing some tickets to balance the workload.</div>
-                      </div>
-                    </div>
-                  )}
-                  {(technician.skills.reduce((sum, skill) => sum + skill.percentage, 0) / technician.skills.length) < 70 && (
-                    <div className="bg-white/80 rounded-lg p-4 border border-white/50 flex items-start gap-3">
-                      <div className="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                        <span className="text-white text-xs">📚</span>
-                      </div>
-                      <div>
-                        <div className="font-semibold text-gray-900">Skill Development</div>
-                        <div className="text-sm text-gray-600">Focus on skill development - average skill level is below 70%.</div>
-                      </div>
-                    </div>
-                  )}
-                  <div className="bg-white/80 rounded-lg p-4 border border-white/50 flex items-start gap-3">
-                    <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                      <span className="text-white text-xs">✅</span>
-                    </div>
-                    <div>
-                      <div className="font-semibold text-gray-900">Performance Summary</div>
-                      <div className="text-sm text-gray-600">
-                        {technician.name} is performing well with {technician.skills.length} skills and {technician.assigned_tickets_total} total tickets assigned.
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Modal Footer */}
-            <div className="sticky bottom-0 bg-gray-50 p-4 rounded-b-2xl border-t border-gray-200">
-              <div className="flex items-center justify-between">
-                <div className="text-sm text-gray-600">
-                  Last updated: {new Date(technician.updated_at).toLocaleDateString()}
-                </div>
-                <div className="flex items-center gap-3">
-                  <Button
-                    onClick={closePerformanceModal}
-                    className="px-6 py-2 border-gray-300 text-gray-700 hover:bg-gray-50"
-                  >
-                    Close
-                  </Button>
-                  <Button
-                    onClick={handleExportReport}
-                    className="px-6 py-2 bg-gradient-to-r from-blue-500 to-purple-500 text-white border-0 hover:from-blue-600 hover:to-purple-600 hover:scale-105 transition-all duration-200"
-                  >
-                    Export Report
-                  </Button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 };

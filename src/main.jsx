@@ -6,7 +6,8 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import TicketForm from './components/TicketForm';
 import { About } from './pages/About';
 import { TechnicianProfilePage } from './pages/TechnicianProfilePage.jsx';
-import TechnicianPerformancePage from './pages/TechnicianPerformancePage.jsx';
+import { TechnicianPerformancePage } from './pages/TechnicianPerformancePage.jsx';
+import { Home } from './pages/Home.jsx';
 import { Dashboard } from './pages/Dashboard.jsx';
 import TicketDetailsPage from './components/TicketDetails.jsx';
 
