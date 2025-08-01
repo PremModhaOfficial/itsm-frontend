@@ -5,12 +5,11 @@ import App from './App.jsx'
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import TicketForm from './components/TicketForm';
 import { About } from './pages/About';
-import { TechnicianProfilePage } from './pages/TechnicianProfilePage.jsx';
-import { TechnicianPerformancePage } from './pages/TechnicianPerformancePage.jsx';
-import { Home } from './pages/Home.jsx';
 import { Dashboard } from './pages/Dashboard.jsx';
 import TicketDetailsPage from './components/TicketDetails.jsx';
 import UserList from './components/Test';
+import { UserDetails } from './pages/UserDetail.jsx';
+import { TechnicianProfilePage } from './pages/TechnicianDetails.jsx';
 
 createRoot(document.getElementById('root')).render(
     <StrictMode>
@@ -18,9 +17,9 @@ createRoot(document.getElementById('root')).render(
             <Routes>
                 <Route path='/' element={<App />} />
                 <Route path='/ticket' element={<TicketForm />} />
-                <Route path='/ticket/:id' element={<TicketDetailsPage />} />
-                <Route path="/technician/:id" element={<TechnicianProfilePage />} />
-                <Route path="/technician/:id/performance" element={<TechnicianPerformancePage />} />
+                <Route path='/tickets/:id' element={<TicketDetailsPage />} />
+                <Route path='/users/:id' element={<UserDetails />} />
+                <Route path="/technicians/:id" element={<TechnicianProfilePage />} />
                 <Route path='/about' element={<About />} />
                 <Route path='/dashboard' element={<Dashboard />} />
                 <Route path='/test' element={<UserList />} />
