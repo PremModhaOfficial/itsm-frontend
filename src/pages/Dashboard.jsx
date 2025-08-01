@@ -83,13 +83,15 @@ export const Dashboard = () => {
 
                     // Fetch technician count for overview stat
                     const allTechniciansOverviewResponse = await techniciansApi.getAllTechniciansSimple();
+
                     const totalTechniciansCountOverview = allTechniciansOverviewResponse.total || allTechniciansOverviewResponse.data?.total || allTechniciansOverviewResponse.data?.length || 0;
+                    console.log(totalTechniciansCountOverview)
+
+
 
                     // Fetch available technicians count for overview stat
                     const availableTechniciansResponse = await techniciansApi.getAllTechniciansSimple();
-                    // FIX: Ensure availableTechsArray is actually an array
                     const availableTechsArray = availableTechniciansResponse.data?.technicians || availableTechniciansResponse.data || [];
-                    console.log(availableTechsArray)
                     const availableTechsCount = availableTechsArray.filter(tech =>
                         tech.status === 'online' || tech.availability_status === 'available'
                     ).length;
@@ -98,10 +100,9 @@ export const Dashboard = () => {
                     const recentTicketsResponse = await ticketsApi.getAllTickets({
                         sort_by: 'created_at',
                         sort_order: 'desc',
-                        limit: 10,
+                        limit: 4,
                         include: 'requester,assigned_technician'
                     });
-                    // FIX: Safer access to recent tickets array
                     setRecentTickets(recentTicketsResponse.data?.tickets || recentTicketsResponse.data || []);
 
                     setOverviewStats(prevStats => ({
@@ -130,7 +131,9 @@ export const Dashboard = () => {
                         include: 'skills'
                     });
 
-                    const rawTechniciansData = techsResponse.data?.technicians || [];
+                    const rawTechniciansData = techsResponse || [];
+                    console.log(techsResponse, "prem")
+
                     const transformedTechnicians = rawTechniciansData.map(tech => ({
                         id: tech.id,
                         name: tech.user?.name || tech.name,
@@ -250,13 +253,12 @@ export const Dashboard = () => {
         const pageNumbers = [];
 
         if (totalPages > 0) {
-            // Calculate a dynamic range of pages to display
             let startPage = Math.max(1, currentPage - 2);
             let endPage = Math.min(totalPages, currentPage + 2);
 
-            if (currentPage <= 3) { // Adjust startPage if near the beginning
+            if (currentPage <= 3) {
                 endPage = Math.min(totalPages, 5);
-            } else if (currentPage >= totalPages - 2) { // Adjust endPage if near the end
+            } else if (currentPage >= totalPages - 2) {
                 startPage = Math.max(1, totalPages - 4);
             }
 
@@ -264,7 +266,6 @@ export const Dashboard = () => {
                 pageNumbers.push(i);
             }
 
-            // Add dots and first/last page if not in the current range
             if (startPage > 1) {
                 if (startPage > 2) pageNumbers.unshift('...');
                 if (!pageNumbers.includes(1)) pageNumbers.unshift(1);
@@ -477,13 +478,21 @@ export const Dashboard = () => {
                                             </thead>
                                             <tbody className="bg-white divide-y divide-gray-200">
                                                 {recentTickets.map((ticket) => (
-                                                    <tr key={ticket.id} className="hover:bg-gray-50 cursor-pointer" onClick={() => navigate(`/tickets/${ticket.id}`)}>
+                                                    <tr key={ticket.id} className="hover:bg-gray-50"> {/* Removed row onClick */}
                                                         <td className="px-6 py-4 whitespace-nowrap">
-                                                            <div className="text-sm font-medium text-gray-900">{ticket.id}</div>
+                                                            <div className="text-sm font-medium text-gray-900">
+                                                                <Link to={`/tickets/${ticket.id}`} className="text-blue-600 hover:text-blue-900 hover:underline">
+                                                                    {ticket.id}
+                                                                </Link>
+                                                            </div>
                                                             <div className="text-sm text-gray-500">{ticket.subject}</div>
                                                         </td>
                                                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                                            {ticket.requester ? ticket.requester.name : 'N/A'}
+                                                            {ticket.requester ? (
+                                                                <Link to={`/users/${ticket.requester.id}`} className="text-blue-600 hover:text-blue-900 hover:underline">
+                                                                    {ticket.requester.name}
+                                                                </Link>
+                                                            ) : 'N/A'}
                                                         </td>
                                                         <td className="px-6 py-4 whitespace-nowrap">
                                                             <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getPriorityColor(ticket.priority)}`}>
@@ -496,7 +505,11 @@ export const Dashboard = () => {
                                                             </span>
                                                         </td>
                                                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                                            {ticket.assigned_technician ? ticket.assigned_technician.name : 'Unassigned'}
+                                                            {ticket.assigned_technician ? (
+                                                                <Link to={`/technicians/${ticket.assigned_technician.id}`} className="text-blue-600 hover:text-blue-900 hover:underline">
+                                                                    {ticket.assigned_technician.name}
+                                                                </Link>
+                                                            ) : 'Unassigned'}
                                                         </td>
                                                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                                             {new Date(ticket.created_at).toLocaleString()}
@@ -539,10 +552,20 @@ export const Dashboard = () => {
                                             </thead>
                                             <tbody className="bg-white divide-y divide-gray-200">
                                                 {allTickets.map((ticket) => (
-                                                    <tr key={ticket.id} className="hover:bg-gray-50 cursor-pointer" onClick={() => navigate(`/tickets/${ticket.id}`)}>
-                                                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{ticket.id}</td>
+                                                    <tr key={ticket.id} className="hover:bg-gray-50"> {/* Removed row onClick */}
+                                                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                                            <Link to={`/tickets/${ticket.id}`} className="text-blue-600 hover:text-blue-900 hover:underline">
+                                                                {ticket.id}
+                                                            </Link>
+                                                        </td>
                                                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{ticket.subject}</td>
-                                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{ticket.requester ? ticket.requester.name : 'N/A'}</td>
+                                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                                            {ticket.requester ? (
+                                                                <Link to={`/users/${ticket.requester.id}`} className="text-blue-600 hover:text-blue-900 hover:underline">
+                                                                    {ticket.requester.name}
+                                                                </Link>
+                                                            ) : 'N/A'}
+                                                        </td>
                                                         <td className="px-6 py-4 whitespace-nowrap">
                                                             <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getPriorityColor(ticket.priority)}`}>
                                                                 {ticket.priority}
@@ -554,13 +577,17 @@ export const Dashboard = () => {
                                                             </span>
                                                         </td>
                                                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                                            {ticket.assigned_technician ? ticket.assigned_technician.name : 'Unassigned'}
+                                                            {ticket.assigned_technician ? (
+                                                                <Link to={`/technicians/${ticket.assigned_technician.id}`} className="text-blue-600 hover:text-blue-900 hover:underline">
+                                                                    {ticket.assigned_technician.name}
+                                                                </Link>
+                                                            ) : 'Unassigned'}
                                                         </td>
                                                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                                             {new Date(ticket.created_at).toLocaleString()}
                                                         </td>
                                                         <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                                            <button className="bg-gray-100 text-gray-700 px-3 py-1 rounded text-xs font-medium hover:bg-gray-200 transition-colors">
+                                                            <button className="bg-gray-100 text-gray-700 px-3 py-1 rounded text-xs font-medium hover:bg-gray-200 transition-colors" onClick={(e) => { e.stopPropagation(); navigate(`/tickets/${ticket.id}`); }}>
                                                                 View
                                                             </button>
                                                         </td>
@@ -633,14 +660,12 @@ export const Dashboard = () => {
                                                         <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                                             Skills
                                                         </th>
-                                                        <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                            Actions
-                                                        </th>
+                                                        {/* Removed Actions column header */}
                                                     </tr>
                                                 </thead>
                                                 <tbody className="bg-white divide-y divide-gray-200">
                                                     {allTechnicians.map((technician) => (
-                                                        <tr key={technician.id} className="hover:bg-gray-50 cursor-pointer" onClick={() => navigate(`/technicians/${technician.id}`)}>
+                                                        <tr key={technician.id} className="hover:bg-gray-50"> {/* Removed row onClick */}
                                                             <td className="px-6 py-4 whitespace-nowrap">
                                                                 <div className="flex items-center">
                                                                     <div className="relative">
@@ -650,7 +675,9 @@ export const Dashboard = () => {
                                                                         <div className={`absolute -bottom-1 -right-1 w-3 h-3 ${technician.status === 'online' ? 'bg-green-500' : technician.status === 'away' ? 'bg-yellow-500' : 'bg-red-500'} rounded-full border-2 border-white`}></div>
                                                                     </div>
                                                                     <div className="ml-4">
-                                                                        <div className="text-sm font-medium text-gray-900">{technician.name}</div>
+                                                                        <Link to={`/technicians/${technician.id}`} className="text-sm font-medium text-blue-600 hover:text-blue-900 hover:underline">
+                                                                            {technician.name}
+                                                                        </Link>
                                                                         <div className="text-sm text-gray-500">{technician.role}</div>
                                                                     </div>
                                                                 </div>
@@ -699,11 +726,7 @@ export const Dashboard = () => {
                                                                     )}
                                                                 </div>
                                                             </td>
-                                                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                                                <button className="bg-gray-100 text-gray-700 px-3 py-1 rounded text-xs font-medium hover:bg-gray-200 transition-colors">
-                                                                    View
-                                                                </button>
-                                                            </td>
+                                                            {/* Removed Actions column data */}
                                                         </tr>
                                                     ))}
                                                 </tbody>
