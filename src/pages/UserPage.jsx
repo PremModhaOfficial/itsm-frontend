@@ -192,6 +192,17 @@ export const UserPage = () => {
                             <div className="bg-blue-50 rounded-lg p-6 border border-blue-200">
                                 <h3 className="text-lg font-semibold text-blue-900 mb-2">Create Ticket</h3>
                                 <p className="text-blue-700 mb-4">Submit a new support ticket for assistance</p>
+                                <div className="flex items-center space-x-3 mb-4">
+                                    <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full flex items-center justify-center">
+                                        <span className="text-white text-sm font-medium">
+                                            {loggedInUser?.name ? loggedInUser.name.split(' ').map(n => n[0]).join('').toUpperCase() : 'U'}
+                                        </span>
+                                    </div>
+                                    <div>
+                                        <p className="text-sm font-medium text-blue-900">{loggedInUser?.name || 'User'}</p>
+                                        <p className="text-xs text-blue-600">{loggedInUser?.email || 'No email'}</p>
+                                    </div>
+                                </div>
                                 <button 
                                     onClick={() => navigate('/ticket')}
                                     className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors"
@@ -204,6 +215,17 @@ export const UserPage = () => {
                             <div className="bg-purple-50 rounded-lg p-6 border border-purple-200">
                                 <h3 className="text-lg font-semibold text-purple-900 mb-2">Profile</h3>
                                 <p className="text-purple-700 mb-4">Update your profile information</p>
+                                <div className="flex items-center space-x-3 mb-4">
+                                    <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-purple-600 rounded-full flex items-center justify-center">
+                                        <span className="text-white text-sm font-medium">
+                                            {loggedInUser?.name ? loggedInUser.name.split(' ').map(n => n[0]).join('').toUpperCase() : 'U'}
+                                        </span>
+                                    </div>
+                                    <div>
+                                        <p className="text-sm font-medium text-purple-900">{loggedInUser?.name || 'User'}</p>
+                                        <p className="text-xs text-purple-600">Role: {loggedInUser?.role ? loggedInUser.role.charAt(0).toUpperCase() + loggedInUser.role.slice(1) : 'User'}</p>
+                                    </div>
+                                </div>
                                 <button 
                                     onClick={() => navigate('/users/' + loggedInUser.id)}
                                     className="bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700 transition-colors"

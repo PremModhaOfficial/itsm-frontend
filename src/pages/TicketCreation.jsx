@@ -9,6 +9,7 @@ import logo from "../assets/logosaas.png";
 
 export const TicketCreatePage = () => {
     const navigate = useNavigate();
+    const [loggedInUser, setLoggedInUser] = useState(null);
 
     const [formData, setFormData] = useState({
         subject: '',
@@ -31,6 +32,17 @@ export const TicketCreatePage = () => {
     const [submitMessage, setSubmitMessage] = useState(null); // Success/error message after submission
 
     useEffect(() => {
+        // Load logged-in user data
+        const userString = localStorage.getItem('user');
+        if (userString) {
+            try {
+                const userData = JSON.parse(userString);
+                setLoggedInUser(userData);
+            } catch (error) {
+                console.error("Error parsing user data:", error);
+            }
+        }
+
         const fetchSkills = async () => {
             setLoading(true);
             try {
@@ -144,10 +156,12 @@ export const TicketCreatePage = () => {
                                 </span>
                             </button>
                             <div className="flex items-center space-x-2">
-                                <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
-                                    <span className="text-white text-sm font-medium">JD</span>
+                                <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
+                                    <span className="text-white text-sm font-medium">
+                                        {loggedInUser?.name ? loggedInUser.name.split(' ').map(n => n[0]).join('').toUpperCase() : 'U'}
+                                    </span>
                                 </div>
-                                <span className="text-sm font-medium text-gray-700">John Doe</span>
+                                <span className="text-sm font-medium text-gray-700">{loggedInUser?.name || 'User'}</span>
                             </div>
                         </div>
                     </div>
