@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { DashboardHeader } from './Dashboard/DashboardHeader';
 import { DashboardNavTabs } from './Dashboard/DashboardNavTabs';
 import { OverviewTab } from './Dashboard/OverviewTab';
@@ -7,8 +7,9 @@ import { TechniciansTab } from './Dashboard/TechniciansTab';
 
 export const Dashboard = () => {
     const [activeTab, setActiveTab] = useState('overview');
-    const [loading, setLoading] = useState(true); // Shared loading state
-    const [error, setError] = useState(null);   // Shared error state
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const [loggedInUser, setLoggedInUser] = useState(null); // State to store logged-in user info
 
     // States that might be needed across tabs (like overview stats)
     const [overviewStats, setOverviewStats] = useState({
@@ -23,21 +24,28 @@ export const Dashboard = () => {
     });
     const [recentTickets, setRecentTickets] = useState([]);
 
+    // Effect to load user info from localStorage
+    useEffect(() => {
+        const user = localStorage.getItem('user');
+        console.log(user, "goooooood")
+        setLoggedInUser(user)
+        if (user) {
+            setLoggedInUser(user);
+        } else {
+            // Optionally redirect to login if no user is found
+            // navigate('/login');
+        }
+    }, []);
 
-    // This handles tab changes. Note: Individual tab components will manage their own pagination state (currentPage).
     const handleTabChange = (tabId) => {
         setActiveTab(tabId);
-        // No need to reset currentPage here explicitly.
-        // When a new tab component is mounted, its useEffect will run,
-        // fetching data for its initial currentPage (defaulting to 1).
     };
 
     return (
         <div className="antialiased bg-gray-50 min-h-screen">
-            <DashboardHeader />
+            <DashboardHeader user={loggedInUser} /> {/* Pass loggedInUser to Header */}
             <DashboardNavTabs activeTab={activeTab} onTabChange={handleTabChange} />
 
-            {/* Main Content Area */}
             <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
                 {activeTab === 'overview' && (
                     <OverviewTab
@@ -67,12 +75,10 @@ export const Dashboard = () => {
                         setLoading={setLoading}
                         error={error}
                         setError={setError}
-                        overviewStats={overviewStats} // Pass overviewStats and its setter to update from within TechniciansTab
+                        overviewStats={overviewStats}
                         setOverviewStats={setOverviewStats}
                     />
                 )}
-
-                {/* Removed 'Reports' tab content */}
             </main>
         </div>
     );

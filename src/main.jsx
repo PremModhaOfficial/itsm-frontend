@@ -10,13 +10,19 @@ import TicketDetailsPage from './components/TicketDetails.jsx';
 import UserList from './components/Test';
 import { UserDetails } from './pages/UserDetail.jsx';
 import { TechnicianProfilePage } from './pages/TechnicianDetails.jsx';
+import { TicketCreatePage } from './pages/TicketCreation.jsx';
+import { LoginPage } from './pages/LoginPage.jsx';
+import { RegisterPage } from './pages/RegisterPage.jsx'
+
 
 createRoot(document.getElementById('root')).render(
     <StrictMode>
         <BrowserRouter>
             <Routes>
                 <Route path='/' element={<App />} />
-                <Route path='/ticket' element={<TicketForm />} />
+                <Route path='/ticket' element={<TicketCreatePage />} />
+                <Route path='/login' element={<LoginPage />} />
+                <Route path='/register' element={<RegisterPage />} />
                 <Route path='/tickets/:id' element={<TicketDetailsPage />} />
                 <Route path='/users/:id' element={<UserDetails />} />
                 <Route path="/technicians/:id" element={<TechnicianProfilePage />} />

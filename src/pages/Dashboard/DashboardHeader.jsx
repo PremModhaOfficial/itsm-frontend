@@ -1,7 +1,10 @@
 import React from 'react';
 import logo from "../../assets/logosaas.png"; // Adjust path as necessary
 
-export const DashboardHeader = () => {
+export const DashboardHeader = ({ user }) => { // Accept user prop
+    const userInitials = user?.name ? user.name.split(' ').map(n => n[0]).join('').toUpperCase() : '??';
+    const userName = user?.name || 'Guest';
+
     return (
         <header className="bg-white shadow-sm border-b border-gray-200">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -18,9 +21,9 @@ export const DashboardHeader = () => {
                         </button>
                         <div className="flex items-center space-x-2">
                             <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
-                                <span className="text-white text-sm font-medium">JD</span>
+                                <span className="text-white text-sm font-medium">{userInitials}</span> {/* Display dynamic initials */}
                             </div>
-                            <span className="text-sm font-medium text-gray-700">John Doe</span>
+                            <span className="text-sm font-medium text-gray-700">{userName}</span> {/* Display dynamic name */}
                         </div>
                     </div>
                 </div>
