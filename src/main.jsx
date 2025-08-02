@@ -12,7 +12,11 @@ import { UserDetails } from './pages/UserDetail.jsx';
 import { TechnicianProfilePage } from './pages/TechnicianDetails.jsx';
 import { TicketCreatePage } from './pages/TicketCreation.jsx';
 import { LoginPage } from './pages/LoginPage.jsx';
-import { RegisterPage } from './pages/RegisterPage.jsx'
+import { RegisterPage } from './pages/RegisterPage.jsx';
+import { UserPage } from './pages/UserPage.jsx';
+import { AdminPage } from './pages/AdminPage.jsx';
+import { TechnicianPage } from './pages/TechnicianPage.jsx';
+import { ManagerPage } from './pages/ManagerPage.jsx';
 
 
 createRoot(document.getElementById('root')).render(
@@ -29,6 +33,12 @@ createRoot(document.getElementById('root')).render(
                 <Route path='/about' element={<About />} />
                 <Route path='/dashboard' element={<Dashboard />} />
                 <Route path='/test' element={<UserList />} />
+                
+                {/* Role-based routes */}
+                <Route path='/user' element={<UserPage />} />
+                <Route path='/admin' element={<AdminPage />} />
+                <Route path='/technician' element={<TechnicianPage />} />
+                <Route path='/manager' element={<ManagerPage />} />
 
             </Routes>
         </BrowserRouter>

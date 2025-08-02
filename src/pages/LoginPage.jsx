@@ -37,14 +37,27 @@ export const LoginPage = () => {
             if (response.success) { // Check response.success directly
                 setSuccessMessage('Login successful! Redirecting to dashboard...');
 
-                // FIX: Access the user object directly from 'response'
-                // Based on your previous examples, the user object is likely 'response.user'
-                if (response.data.name) { // Check if 'user' property exists in the response
-                    localStorage.setItem('user', JSON.stringify(response.data.name));
-                    console.log(localStorage.getItem('user'), "user is ")
-                    // console.log("User data stored in localStorage:", response.user); // Debugging line
+                // Store complete user data
+                if (response.data) {
+                    const userData = {
+                        name: response.data.name || formData.email.split('@')[0], // Use name or email prefix as fallback
+                        email: response.data.email || formData.email,
+                        role: response.data.role || 'user', // Default role (lowercase to match registration)
+                        id: response.data.id || null
+                    };
+                    console.log("Storing user data:", userData);
+                    localStorage.setItem('user', JSON.stringify(userData));
                 } else {
-                    console.warn("Login response did not contain a 'user' property as expected:", response);
+                    console.warn("Login response did not contain user data as expected:", response);
+                    // Fallback: create user data from form data
+                    const fallbackUserData = {
+                        name: formData.email.split('@')[0],
+                        email: formData.email,
+                        role: 'user', // Default role (lowercase)
+                        id: null
+                    };
+                    console.log("Storing fallback user data:", fallbackUserData);
+                    localStorage.setItem('user', JSON.stringify(fallbackUserData));
                 }
 
                 // If you also get a token, store it (assuming 'response.token')
@@ -53,7 +66,24 @@ export const LoginPage = () => {
                 // }
 
                 setTimeout(() => {
-                    navigate('/dashboard');
+                    // Redirect based on user role
+                    const storedUser = localStorage.getItem('user');
+                    console.log("Stored user data for redirect:", storedUser);
+                    
+                    if (storedUser) {
+                        try {
+                            const userData = JSON.parse(storedUser);
+                            const userRole = userData.role?.toLowerCase() || 'user';
+                            console.log("Redirecting to role:", userRole);
+                            navigate(`/${userRole}`);
+                        } catch (error) {
+                            console.error("Error parsing user data for redirect:", error);
+                            navigate('/user'); // Fallback to user page
+                        }
+                    } else {
+                        console.log("No stored user data, redirecting to /user");
+                        navigate('/user'); // Fallback to user page
+                    }
                 }, 1500);
             } else {
                 // If response.success is false, the message is likely at response.message

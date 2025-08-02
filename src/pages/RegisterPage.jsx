@@ -11,7 +11,7 @@ export const RegisterPage = () => {
         email: '',
         password: '',
         contact_no: '',
-        role: 'user', // Default role, adjust as per your application's logic
+        role: 'User', // Default role, adjust as per your application's logic
         department: '' // Default department
     });
     const [loading, setLoading] = useState(false);
@@ -186,7 +186,7 @@ export const RegisterPage = () => {
                             </div>
                         </div>
 
-                        {/* Role (as a text input for flexibility, could be a select if roles are fixed) */}
+                        {/* Role Selection */}
                         <div>
                             <label htmlFor="role" className="block text-sm font-medium text-gray-700">
                                 Role
@@ -195,17 +195,19 @@ export const RegisterPage = () => {
                                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                     <Briefcase className="h-5 w-5 text-gray-400" aria-hidden="true" />
                                 </div>
-                                <input
+                                <select
                                     id="role"
                                     name="role"
-                                    type="text"
                                     value={formData.role}
                                     onChange={handleChange}
-                                    className="appearance-none block w-full pl-10 px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                    placeholder="e.g., user, admin, technician"
-                                />
+                                    className="appearance-none block w-full pl-10 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm bg-white"
+                                >
+                                    <option value="user">User</option>
+                                    <option value="admin">Admin</option>
+                                    <option value="technician">Technician</option>
+                                    <option value="manager">Manager</option>
+                                </select>
                             </div>
-                            <p className="mt-1 text-xs text-gray-500">Default is 'user'.</p>
                         </div>
 
                         {/* Department (as a text input for flexibility, could be a select) */}

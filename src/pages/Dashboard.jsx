@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { DashboardHeader } from './Dashboard/DashboardHeader';
 import { DashboardNavTabs } from './Dashboard/DashboardNavTabs';
 import { OverviewTab } from './Dashboard/OverviewTab';
@@ -6,6 +7,7 @@ import { TicketsTab } from './Dashboard/TicketsTab';
 import { TechniciansTab } from './Dashboard/TechniciansTab';
 
 export const Dashboard = () => {
+    const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState('overview');
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -26,16 +28,38 @@ export const Dashboard = () => {
 
     // Effect to load user info from localStorage
     useEffect(() => {
-        const user = localStorage.getItem('user');
-        console.log(user, "goooooood")
-        setLoggedInUser(user)
-        if (user) {
-            setLoggedInUser(user);
+        const userString = localStorage.getItem('user');
+        
+        if (userString) {
+            try {
+                const userData = JSON.parse(userString);
+                setLoggedInUser(userData);
+                
+                // Redirect to role-specific page if user is not on the correct page
+                const currentPath = window.location.pathname;
+                const userRole = userData.role?.toLowerCase() || 'user';
+                const expectedPath = `/${userRole}`;
+                
+                console.log("Dashboard - Current path:", currentPath);
+                console.log("Dashboard - User role:", userRole);
+                console.log("Dashboard - Expected path:", expectedPath);
+                
+                if (currentPath !== expectedPath && currentPath !== '/dashboard') {
+                    // Only redirect if not already on dashboard (allow dashboard access for all roles)
+                    console.log("Dashboard - Redirecting to:", expectedPath);
+                    navigate(expectedPath);
+                }
+            } catch (error) {
+                console.error("Error parsing user data:", error);
+                // Handle legacy string format
+                const legacyUser = { name: userString, role: 'User' };
+                setLoggedInUser(legacyUser);
+            }
         } else {
             // Optionally redirect to login if no user is found
             // navigate('/login');
         }
-    }, []);
+    }, [navigate]);
 
     const handleTabChange = (tabId) => {
         setActiveTab(tabId);
