@@ -187,8 +187,8 @@ export const TechniciansTab = ({ loading, setLoading, error, setError, overviewS
     return (
         <div className="space-y-6">
             {/* Stats Bar */}
-            <div className="bg-white rounded-2xl p-6 shadow-lg">
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+            <div className="bg-white rounded-2xl p-4 shadow-lg">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
                     <div>
                         <div className="text-3xl font-bold text-blue-600 mb-1">{overviewStats.totalTechniciansOverview}</div>
                         <p className="text-gray-600 text-sm">Total Technicians</p>
@@ -201,10 +201,7 @@ export const TechniciansTab = ({ loading, setLoading, error, setError, overviewS
                         <div className="text-3xl font-bold text-purple-600 mb-1">{overviewStats.totalTicketsResolvedOverall?.toLocaleString() || 'N/A'}</div>
                         <p className="text-gray-600 text-sm">Tickets Resolved</p>
                     </div>
-                    <div>
-                        <div className="text-3xl font-bold text-orange-600 mb-1">{overviewStats.avgTechnicianRating}</div>
-                        <p className="text-gray-600 text-sm">Avg. Rating</p>
-                    </div>
+
                 </div>
             </div>
 

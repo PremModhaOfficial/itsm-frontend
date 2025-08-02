@@ -374,21 +374,21 @@ export const TechnicianProfilePage = () => {
             </header>
 
             <main className="flex-grow max-w-7xl mx-auto py-8 sm:px-6 lg:px-8 w-full">
-                <div className="bg-white shadow-xl rounded-lg p-10 transform transition-all duration-300 hover:scale-[1.005]">
-                    <div className="flex justify-between items-center mb-8 border-b pb-6">
-                        <h2 className="text-3xl font-extrabold text-gray-900">Technician Profile</h2>
+                <div className="bg-white shadow rounded-lg p-6">
+                    <div className="flex justify-between items-center mb-6">
+                        <h2 className="text-xl font-medium text-gray-900">Technician Profile</h2>
                         <div>
                             {isEditing ? (
                                 <>
                                     <button
                                         onClick={handleSave}
-                                        className="px-5 py-2.5 bg-green-600 text-white rounded-lg font-semibold hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-colors duration-200 mr-3"
+                                        className="px-4 py-2 bg-green-600 text-white rounded-md font-medium hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-colors duration-200 mr-3"
                                     >
-                                        <span className="flex items-center"><Save size={16} className="mr-2" />Save Changes</span>
+                                        <span className="flex items-center"><Save size={16} className="mr-2" />Save</span>
                                     </button>
                                     <button
                                         onClick={handleCancel}
-                                        className="px-5 py-2.5 bg-red-500 text-white rounded-lg font-semibold hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-colors duration-200"
+                                        className="px-4 py-2 bg-red-500 text-white rounded-md font-medium hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-colors duration-200"
                                     >
                                         <span className="flex items-center"><X size={16} className="mr-2" />Cancel</span>
                                     </button>
@@ -396,7 +396,7 @@ export const TechnicianProfilePage = () => {
                             ) : (
                                 <button
                                     onClick={() => setIsEditing(true)}
-                                    className="px-5 py-2.5 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200"
+                                    className="px-4 py-2 bg-blue-600 text-white rounded-md font-medium hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200"
                                 >
                                     <span className="flex items-center"><Edit size={16} className="mr-2" />Edit Profile</span>
                                 </button>
@@ -415,15 +415,13 @@ export const TechnicianProfilePage = () => {
                         {/* Left Column - Profile Info */}
                         <div className="lg:col-span-2 space-y-6">
                             {/* Profile Card */}
-                            <div className="bg-white rounded-2xl shadow-xl border border-gray-100 p-8">
-                                <div className="flex items-start gap-8">
+                            <div className="bg-white shadow rounded-lg p-6">
+                                <div className="flex items-start gap-6">
                                     <div className="relative">
-                                        <div className="size-32 ring-4 ring-white/50 shadow-2xl rounded-full overflow-hidden flex items-center justify-center">
-                                            <div className="w-full h-full bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 flex items-center justify-center text-white font-bold text-3xl">
-                                                {(user?.name || technician?.name)?.split(' ').map(n => n[0]).join('')}
-                                            </div>
+                                        <div className="w-20 h-20 bg-blue-500 rounded-full flex items-center justify-center text-white font-medium text-lg">
+                                            {(user?.name || technician?.name)?.split(' ').map(n => n[0]).join('')}
                                         </div>
-                                        <div className={`absolute -bottom-2 -right-2 w-6 h-6 rounded-full border-4 border-white ${technician?.availability_status === 'available' ? 'bg-green-500' :
+                                        <div className={`absolute -bottom-1 -right-1 w-4 h-4 rounded-full border-2 border-white ${technician?.availability_status === 'available' ? 'bg-green-500' :
                                             technician?.availability_status === 'busy' || technician?.availability_status === 'in_meeting' ? 'bg-red-500' :
                                                 technician?.availability_status === 'on_break' || technician?.availability_status === 'focus_mode' || technician?.availability_status === 'end_of_shift' ? 'bg-yellow-500' :
                                                     'bg-gray-500'
@@ -433,7 +431,7 @@ export const TechnicianProfilePage = () => {
                                         {isEditing ? (
                                             <div className="space-y-4">
                                                 <div>
-                                                    <label className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+                                                    <label className="block text-sm font-normal text-gray-700 mb-1">Full Name</label>
                                                     <input
                                                         type="text"
                                                         name="name"
@@ -443,7 +441,7 @@ export const TechnicianProfilePage = () => {
                                                     />
                                                 </div>
                                                 <div>
-                                                    <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                                                    <label className="block text-sm font-normal text-gray-700 mb-1">Email</label>
                                                     <input
                                                         type="email"
                                                         name="email"
@@ -453,7 +451,7 @@ export const TechnicianProfilePage = () => {
                                                     />
                                                 </div>
                                                 <div>
-                                                    <label className="block text-sm font-medium text-gray-700 mb-1">Contact No.</label>
+                                                    <label className="block text-sm font-normal text-gray-700 mb-1">Contact No.</label>
                                                     <input
                                                         type="text"
                                                         name="contact_no"
@@ -463,7 +461,7 @@ export const TechnicianProfilePage = () => {
                                                     />
                                                 </div>
                                                 <div>
-                                                    <label className="block text-sm font-medium text-gray-700 mb-1">Specialization</label>
+                                                    <label className="block text-sm font-normal text-gray-700 mb-1">Specialization</label>
                                                     <input
                                                         type="text"
                                                         name="specialization"
@@ -473,7 +471,7 @@ export const TechnicianProfilePage = () => {
                                                     />
                                                 </div>
                                                 <div>
-                                                    <label className="block text-sm font-medium text-gray-700 mb-1">Availability Status</label>
+                                                    <label className="block text-sm font-normal text-gray-700 mb-1">Availability Status</label>
                                                     <select
                                                         name="availability_status"
                                                         value={formData.availability_status || ''}
@@ -489,7 +487,7 @@ export const TechnicianProfilePage = () => {
                                                     </select>
                                                 </div>
                                                 <div>
-                                                    <label className="block text-sm font-medium text-gray-700 mb-1">Skill Level</label>
+                                                    <label className="block text-sm font-normal text-gray-700 mb-1">Skill Level</label>
                                                     <select
                                                         name="skill_level"
                                                         value={formData.skill_level || ''}
@@ -549,42 +547,36 @@ export const TechnicianProfilePage = () => {
                             </div>
 
                             {/* Skills Section */}
-                            <div className="bg-white rounded-2xl shadow-xl border border-gray-100 p-8">
-                                <div className="flex items-center justify-between mb-6">
+                            <div className="bg-white shadow rounded-lg p-6">
+                                <div className="flex items-center justify-between mb-4">
                                     <div className="flex items-center gap-3">
-                                        <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-                                            <Star size={16} className="text-white" />
+                                        <div className="w-6 h-6 bg-blue-500 rounded flex items-center justify-center">
+                                            <Star size={14} className="text-white" />
                                         </div>
-                                        <h3 className="text-2xl font-bold bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent">
-                                            Skills & Expertise
-                                        </h3>
+                                                                            <h3 className="text-base font-medium text-gray-900">
+                                        Skills & Expertise
+                                    </h3>
                                     </div>
                                     <button
                                         onClick={handleExportReport}
-                                        className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-md text-sm font-semibold hover:bg-blue-700 shadow-md hover:shadow-lg transition-all duration-300"
+                                        className="px-3 py-1 bg-blue-500 text-white rounded text-sm hover:bg-blue-600"
                                     >
-                                        <TrendingUp size={18} />
                                         Export Report
                                     </button>
                                 </div>
-                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     {technician.skills && technician.skills.length > 0 ? (
                                         technician.skills.map((skill) => (
-                                            <div key={skill.id} className="bg-white rounded-xl p-5 border border-gray-100 hover:shadow-lg transition-all duration-200 group">
-                                                <div className="flex items-center justify-between mb-3">
-                                                    <span className="font-semibold text-gray-900 text-base group-hover:text-blue-600 transition-colors duration-200">{skill.name}</span>
-                                                    <span className="text-lg font-bold text-blue-600">{skill.percentage}%</span>
+                                            <div key={skill.id} className="bg-gray-50 rounded p-4">
+                                                <div className="flex items-center justify-between mb-2">
+                                                    <span className="font-normal text-gray-900">{skill.name}</span>
+                                                    <span className="text-sm font-medium text-blue-600">{skill.percentage}%</span>
                                                 </div>
-                                                <div className="w-full bg-gray-200 rounded-full h-2.5 overflow-hidden mb-2">
+                                                <div className="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
                                                     <div
-                                                        className="h-2.5 rounded-full bg-blue-500 transition-all duration-700 ease-out"
+                                                        className="h-2 rounded-full bg-blue-500"
                                                         style={{ width: `${skill.percentage}%` }}
                                                     ></div>
-                                                </div>
-                                                <div className="text-xs text-gray-500 font-medium">
-                                                    {skill.percentage >= 90 ? 'Expert Level' :
-                                                        skill.percentage >= 80 ? 'Advanced Level' :
-                                                            skill.percentage >= 70 ? 'Intermediate Level' : 'Beginner Level'}
                                                 </div>
                                             </div>
                                         ))
@@ -598,42 +590,56 @@ export const TechnicianProfilePage = () => {
                         {/* Right Column - Stats & Actions */}
                         <div className="space-y-6">
                             {/* Current Stats */}
-                            <div className="bg-white rounded-2xl shadow-xl border border-gray-100 p-8">
-                                <div className="flex items-center gap-3 mb-6">
-                                    <div className="w-8 h-8 bg-green-600 rounded-lg flex items-center justify-center">
-                                        <Activity size={16} className="text-white" />
+                            <div className="bg-white shadow rounded-lg p-6">
+                                <div className="flex items-center gap-3 mb-4">
+                                    <div className="w-6 h-6 bg-green-500 rounded flex items-center justify-center">
+                                        <Activity size={14} className="text-white" />
                                     </div>
-                                    <h3 className="text-2xl font-bold bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent">
+                                    <h3 className="text-base font-medium text-gray-900">
                                         Current Stats
                                     </h3>
                                 </div>
-                                <div className="space-y-6">
-                                    <div className="bg-white rounded-xl p-4 border border-gray-100">
-                                        <div className="flex items-center justify-between mb-3">
-                                            <span className="text-sm font-semibold text-gray-700">Workload</span>
-                                            <span className={`text-lg font-bold ${getWorkloadColor(technician.workload)}`}>
-                                                {technician.workload}%
+                                <div className="space-y-4">
+                                    {/* Rating Section */}
+                                    <div className="bg-gray-50 rounded p-4">
+                                        <div className="flex items-center justify-between mb-2">
+                                            <span className="text-sm font-medium text-gray-700">Overall Rating</span>
+                                            <span className={`text-lg font-medium ${
+                                                technician.avg_score ? 
+                                                    (technician.avg_score / 2) >= 4.0 ? 'text-green-600' : 
+                                                    (technician.avg_score / 2) >= 3.0 ? 'text-yellow-600' : 
+                                                    'text-red-600' : 'text-gray-600'
+                                            }`}>
+                                                {technician.avg_score ? (technician.avg_score / 2).toFixed(1) : '0.0'}/5
                                             </span>
                                         </div>
-                                        <div className="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
+                                        <div className="text-xs text-gray-500">
+                                            Based on {technician.skills?.length || 0} skills • {technician.skills && technician.skills.length > 0 
+                                                ? technician.skills.filter(skill => skill.percentage >= 80).length 
+                                                : 0} expert skills
+                                        </div>
+                                    </div>
+
+                                    <div className="bg-gray-50 rounded p-4">
+                                        <div className="flex items-center justify-between mb-2">
+                                            <span className="text-sm font-medium text-gray-700">Workload</span>
+                                            <span className="text-sm font-medium text-gray-900">{technician.workload}%</span>
+                                        </div>
+                                        <div className="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
                                             <div
-                                                className={`h-3 rounded-full transition-all duration-500 ease-out ${getWorkloadBarColor(technician.workload)}`}
+                                                className="h-2 rounded-full bg-blue-500"
                                                 style={{ width: `${technician.workload}%` }}
                                             ></div>
-                                        </div>
-                                        <div className="mt-2 text-xs text-gray-500">
-                                            {technician.workload >= 80 ? 'High workload - Consider redistributing' :
-                                                technician.workload >= 60 ? 'Moderate workload' : 'Optimal workload'}
                                         </div>
                                     </div>
 
                                     <div className="grid grid-cols-2 gap-4">
-                                        <div className="bg-white rounded-xl p-4 border border-blue-100 text-center">
-                                            <div className="text-2xl font-bold text-blue-600">{technician.tickets.length || 0}</div>
+                                        <div className="bg-gray-50 rounded p-4 text-center">
+                                            <div className="text-base font-medium text-blue-600">{technician.assigned_tickets_total || 0}</div>
                                             <div className="text-sm text-gray-600">Assigned Tickets</div>
                                         </div>
-                                        <div className="bg-white rounded-xl p-4 border border-green-100 text-center">
-                                            <div className="text-2xl font-bold text-green-600">{technician.skills?.length || 0}</div>
+                                        <div className="bg-gray-50 rounded p-4 text-center">
+                                            <div className="text-base font-medium text-green-600">{technician.skills?.length || 0}</div>
                                             <div className="text-sm text-gray-600">Skills Listed</div>
                                         </div>
                                     </div>
@@ -684,28 +690,28 @@ export const TechnicianProfilePage = () => {
                     </div>
 
                     {/* Assigned Tickets Section - Full Width */}
-                    <div className="mt-8">
-                        <div className="bg-white shadow-xl rounded-2xl p-10 border border-gray-100 transform transition-all duration-300 hover:scale-[1.005]">
-                            <div className="flex items-center justify-between mb-6">
-                                <div className="flex items-center gap-4">
-                                    <div className="w-10 h-10 bg-orange-600 rounded-xl flex items-center justify-center shadow-lg">
-                                        <Clock size={20} className="text-white" />
+                    <div className="mt-6">
+                        <div className="bg-white shadow rounded-lg p-6">
+                            <div className="flex items-center justify-between mb-4">
+                                <div className="flex items-center gap-3">
+                                    <div className="w-8 h-8 bg-orange-500 rounded flex items-center justify-center">
+                                        <Clock size={16} className="text-white" />
                                     </div>
                                     <div>
-                                        <h3 className="text-3xl font-bold bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent">
+                                        <h3 className="text-base font-medium text-gray-900">
                                             Assigned Tickets
                                         </h3>
-                                        <p className="text-gray-600 font-medium">Total: {technician.assigned_tickets_total || 0} tickets</p>
+                                        <p className="text-sm text-gray-600">Total: {technician.assigned_tickets_total || 0} tickets</p>
                                     </div>
                                 </div>
                                 <div className="flex items-center gap-4 flex-wrap">
-                                    <div className="bg-green-100 text-green-700 px-4 py-2 rounded-full text-sm font-semibold shadow-sm">
+                                    <div className="bg-green-100 text-green-700 px-4 py-2 rounded-full text-sm font-normal shadow-sm">
                                         Active: {assignedTickets.filter(t => t.status !== 'resolved' && t.status !== 'closed' && t.status !== 'cancelled').length}
                                     </div>
-                                    <div className="bg-blue-100 text-blue-700 px-4 py-2 rounded-full text-sm font-semibold shadow-sm">
+                                    <div className="bg-blue-100 text-blue-700 px-4 py-2 rounded-full text-sm font-normal shadow-sm">
                                         Resolved: {assignedTickets.filter(t => t.status === 'resolved').length}
                                     </div>
-                                    <div className="bg-purple-100 text-purple-700 px-4 py-2 rounded-full text-sm font-semibold shadow-sm">
+                                    <div className="bg-purple-100 text-purple-700 px-4 py-2 rounded-full text-sm font-normal shadow-sm">
                                         Closed: {assignedTickets.filter(t => t.status === 'closed').length}
                                     </div>
                                 </div>
@@ -721,24 +727,24 @@ export const TechnicianProfilePage = () => {
                                                 <div className="flex items-center gap-4">
                                                     <div className={`w-4 h-4 rounded-full ${getStatusColor(ticket.status).replace('bg-', 'bg-').replace('text-', '')}`}></div>
                                                     <div>
-                                                        <span className="font-semibold text-gray-900 text-lg">Ticket #{ticket.id}</span>
+                                                        <span className="font-medium text-gray-900 text-base">Ticket #{ticket.id}</span>
                                                         <div className="text-sm text-gray-600 mt-1">{ticket.subject}</div>
                                                     </div>
                                                 </div>
                                                 <div className="flex items-center gap-3">
-                                                    <span className={`text-sm font-medium px-3 py-1 rounded-full ${getStatusColor(ticket.status)}`}>
+                                                    <span className={`text-sm font-normal px-3 py-1 rounded-full ${getStatusColor(ticket.status)}`}>
                                                         {ticket.status?.replace('_', ' ')}
                                                     </span>
                                                     <div className="text-right">
                                                         <div className="text-xs text-gray-500">Created</div>
-                                                        <div className="text-sm font-medium text-gray-900">
+                                                        <div className="text-sm font-normal text-gray-900">
                                                             {new Date(ticket.created_at).toLocaleDateString('en-US', { hour: '2-digit', minute: '2-digit' })}
                                                         </div>
                                                     </div>
                                                     {ticket.resolution_due && (
                                                         <div className="text-right">
                                                             <div className="text-xs text-gray-500">Due</div>
-                                                            <div className="text-sm font-medium text-gray-900">
+                                                            <div className="text-sm font-normal text-gray-900">
                                                                 {new Date(ticket.resolution_due).toLocaleDateString('en-US', { hour: '2-digit', minute: '2-digit' })}
                                                             </div>
                                                         </div>
@@ -759,7 +765,7 @@ export const TechnicianProfilePage = () => {
                                         <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
                                             <Clock size={32} className="text-gray-400" />
                                         </div>
-                                        <p className="text-gray-500 text-xl font-medium">No tickets currently assigned</p>
+                                        <p className="text-gray-500 text-lg font-normal">No tickets currently assigned</p>
                                         <p className="text-gray-400 text-sm mt-2">This technician has no active tickets at the moment.</p>
                                     </div>
                                 )}
