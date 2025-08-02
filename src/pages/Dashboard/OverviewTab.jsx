@@ -51,7 +51,8 @@ export const OverviewTab = ({ loading, setLoading, error, setError, overviewStat
         skillLevelDistribution: [],
         availabilityDistribution: [],
         topPerformerRadar: [],
-        workloadDistribution: []
+        workloadDistribution: [],
+        realTimeStatusFlow: []
     });
 
     // Real-time data configuration
@@ -366,6 +367,9 @@ export const OverviewTab = ({ loading, setLoading, error, setError, overviewStat
             // Generate workload distribution data
             const workloadDistribution = generateWorkloadDistribution(technicianWorkload);
 
+            // Generate real-time status flow data
+            const realTimeStatusFlow = generateRealTimeStatusFlow(allTickets);
+
             setChartData({
                 ticketTrends,
                 statusDistribution,
@@ -374,7 +378,8 @@ export const OverviewTab = ({ loading, setLoading, error, setError, overviewStat
                 skillLevelDistribution,
                 availabilityDistribution,
                 topPerformerRadar,
-                workloadDistribution
+                workloadDistribution,
+                realTimeStatusFlow
             });
 
             setOverviewStats(prevStats => ({
@@ -522,6 +527,55 @@ export const OverviewTab = ({ loading, setLoading, error, setError, overviewStat
         })).filter(item => item.size > 0);
 
         return treemapData;
+    };
+
+    // Generate real-time status flow data for line chart
+    const generateRealTimeStatusFlow = (tickets) => {
+        const now = new Date();
+        const dataPoints = [];
+        
+        // Generate data points for the last 24 hours, every 2 hours
+        for (let i = 23; i >= 0; i -= 2) {
+            const timePoint = new Date(now);
+            timePoint.setHours(now.getHours() - i, 0, 0, 0);
+            
+            // Filter tickets for this time period
+            const periodStart = new Date(timePoint);
+            const periodEnd = new Date(timePoint);
+            periodEnd.setHours(periodEnd.getHours() + 2);
+            
+            const periodTickets = tickets.filter(ticket => {
+                const ticketTime = new Date(ticket.created_at || ticket.updated_at);
+                return ticketTime >= periodStart && ticketTime < periodEnd;
+            });
+            
+            // Count tickets by status for this period
+            const openCount = periodTickets.filter(t => 
+                ['new', 'assigned', 'on_hold'].includes(t.status)
+            ).length;
+            
+            const inProgressCount = periodTickets.filter(t => 
+                t.status === 'in_progress'
+            ).length;
+            
+            const resolvedCount = periodTickets.filter(t => 
+                t.status === 'resolved'
+            ).length;
+            
+            const closedCount = periodTickets.filter(t => 
+                t.status === 'closed'
+            ).length;
+            
+            dataPoints.push({
+                time: timePoint.toISOString(),
+                open: openCount,
+                inProgress: inProgressCount,
+                resolved: resolvedCount,
+                closed: closedCount
+            });
+        }
+        
+        return dataPoints;
     };
 
 
@@ -854,90 +908,59 @@ export const OverviewTab = ({ loading, setLoading, error, setError, overviewStat
                         </ResponsiveContainer>
                     </div>
 
-                    {/* Top 5 Performer Radar Chart */}
+                    {/* Real-Time Ticket Status Flow */}
                     <div className="bg-white p-6 rounded-lg shadow">
                         <div className="flex items-center justify-between mb-4">
-                            <h3 className="text-lg font-semibold text-gray-900">Top 5 Performer Analysis</h3>
+                            <h3 className="text-lg font-semibold text-gray-900">Real-Time Ticket Status Flow</h3>
                             <div className="flex items-center space-x-2">
                                 <span className="text-xs text-gray-500">
-                                    Multi-dimensional Performance View
+                                    Live Status Transitions (Last 24 Hours)
                                 </span>
+                                <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
                             </div>
                         </div>
                         <ResponsiveContainer width="100%" height={300}>
-                            <RadarChart data={chartData.topPerformerRadar}>
-                                <PolarGrid />
-                                <PolarAngleAxis dataKey="technician" />
-                                <PolarRadiusAxis angle={90} domain={[0, 100]} />
-                                <Radar
-                                    name="Workload"
-                                    dataKey="workload"
-                                    stroke="#ff4444"
-                                    fill="#ff4444"
-                                    fillOpacity={0.3}
+                            <LineChart data={chartData.realTimeStatusFlow}>
+                                <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                                <XAxis 
+                                    dataKey="time" 
+                                    stroke="#666"
+                                    fontSize={12}
+                                    tickFormatter={(value) => {
+                                        const date = new Date(value);
+                                        return date.toLocaleTimeString('en-US', { 
+                                            hour: '2-digit', 
+                                            minute: '2-digit',
+                                            hour12: false 
+                                        });
+                                    }}
                                 />
-                                <Radar
-                                    name="Productivity"
-                                    dataKey="productivity"
-                                    stroke="#ff8800"
-                                    fill="#ff8800"
-                                    fillOpacity={0.3}
-                                />
-                                <Radar
-                                    name="Quality"
-                                    dataKey="quality"
-                                    stroke="#ffcc00"
-                                    fill="#ffcc00"
-                                    fillOpacity={0.3}
-                                />
-                                <Radar
-                                    name="Efficiency"
-                                    dataKey="efficiency"
-                                    stroke="#88cc00"
-                                    fill="#88cc00"
-                                    fillOpacity={0.3}
-                                />
-                                <Radar
-                                    name="Availability"
-                                    dataKey="availability"
-                                    stroke="#44cc44"
-                                    fill="#44cc44"
-                                    fillOpacity={0.3}
-                                />
-                                <Radar
-                                    name="Skill Level"
-                                    dataKey="skillLevel"
-                                    stroke="#4488cc"
-                                    fill="#4488cc"
-                                    fillOpacity={0.3}
-                                />
+                                <YAxis stroke="#666" fontSize={12} />
                                 <Tooltip
                                     content={({ active, payload, label }) => {
                                         if (active && payload && payload.length) {
-                                            const data = payload[0].payload;
+                                            const time = new Date(label).toLocaleTimeString('en-US', {
+                                                hour: '2-digit',
+                                                minute: '2-digit',
+                                                second: '2-digit',
+                                                hour12: false
+                                            });
                                             return (
                                                 <div className="bg-white p-3 border border-gray-200 rounded-lg shadow-lg">
-                                                    <div className="flex items-center space-x-2 mb-2">
-                                                        <div className="w-3 h-3 rounded-full" style={{ backgroundColor: data.color }}></div>
-                                                        <p className="font-semibold">#{data.rank} {data.technician}</p>
-                                                    </div>
-                                                    <div className="space-y-1 text-sm">
-                                                        <p><span className="font-medium">Workload:</span> {data.workload.toFixed(1)}%</p>
-                                                        <p><span className="font-medium">Productivity:</span> {data.productivity.toFixed(1)}%</p>
-                                                        <p><span className="font-medium">Quality:</span> {data.quality.toFixed(1)}%</p>
-                                                        <p><span className="font-medium">Efficiency:</span> {data.efficiency.toFixed(1)}%</p>
-                                                        <p><span className="font-medium">Availability:</span> {data.availability.toFixed(1)}%</p>
-                                                        <p><span className="font-medium">Skill Level:</span> {data.skillLevel.toFixed(1)}%</p>
-                                                    </div>
-                                                    <div className="mt-2 pt-2 border-t border-gray-200">
-                                                        <p className="text-xs text-gray-600 mb-1">Performance Tags:</p>
-                                                        <div className="flex flex-wrap gap-1">
-                                                            {data.tags.map((tag, index) => (
-                                                                <span key={index} className="inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">
-                                                                    {tag.replace('-', ' ')}
-                                                                </span>
-                                                            ))}
-                                                        </div>
+                                                    <p className="font-semibold text-gray-900 mb-2">{time}</p>
+                                                    <div className="space-y-1">
+                                                        {payload.map((entry, index) => (
+                                                            <div key={index} className="flex items-center justify-between">
+                                                                <div className="flex items-center space-x-2">
+                                                                    <div 
+                                                                        className="w-3 h-3 rounded-full" 
+                                                                        style={{ backgroundColor: entry.color }}
+                                                                    ></div>
+                                                                    <span className="text-sm font-medium">{entry.name}</span>
+                                                                </div>
+                                                                <span className="text-sm font-semibold">{entry.value}</span>
+                                                            </div>
+                                                        ))}
                                                     </div>
                                                 </div>
                                             );
@@ -946,22 +969,45 @@ export const OverviewTab = ({ loading, setLoading, error, setError, overviewStat
                                     }}
                                 />
                                 <Legend />
-                            </RadarChart>
+                                <Line 
+                                    type="monotone" 
+                                    dataKey="open" 
+                                    stroke="#3b82f6" 
+                                    strokeWidth={3}
+                                    dot={{ fill: '#3b82f6', strokeWidth: 2, r: 4 }}
+                                    activeDot={{ r: 6, stroke: '#3b82f6', strokeWidth: 2 }}
+                                    name="Open Tickets"
+                                />
+                                <Line 
+                                    type="monotone" 
+                                    dataKey="inProgress" 
+                                    stroke="#f59e0b" 
+                                    strokeWidth={3}
+                                    dot={{ fill: '#f59e0b', strokeWidth: 2, r: 4 }}
+                                    activeDot={{ r: 6, stroke: '#f59e0b', strokeWidth: 2 }}
+                                    name="In Progress"
+                                />
+                                <Line 
+                                    type="monotone" 
+                                    dataKey="resolved" 
+                                    stroke="#10b981" 
+                                    strokeWidth={3}
+                                    dot={{ fill: '#10b981', strokeWidth: 2, r: 4 }}
+                                    activeDot={{ r: 6, stroke: '#10b981', strokeWidth: 2 }}
+                                    name="Resolved"
+                                />
+                                <Line 
+                                    type="monotone" 
+                                    dataKey="closed" 
+                                    stroke="#6b7280" 
+                                    strokeWidth={3}
+                                    dot={{ fill: '#6b7280', strokeWidth: 2, r: 4 }}
+                                    activeDot={{ r: 6, stroke: '#6b7280', strokeWidth: 2 }}
+                                    name="Closed"
+                                />
+                            </LineChart>
                         </ResponsiveContainer>
-                        <div className="mt-4 grid grid-cols-2 md:grid-cols-3 gap-4">
-                            {chartData.topPerformerRadar.map((performer, index) => (
-                                <div key={index} className="flex items-center space-x-2 p-2 bg-gray-50 rounded">
-                                    <div className="w-3 h-3 rounded-full" style={{ backgroundColor: performer.color }}></div>
-                                    <div className="flex-1 min-w-0">
-                                        <p className="text-sm font-medium truncate">#{performer.rank} {performer.technician}</p>
-                                        <p className="text-xs text-gray-500">
-                                            {performer.resolvedTickets} tickets • {performer.avgRating.toFixed(1)}★
-                                        </p>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
+                                         </div>
                 </div>
 
                 {/* Third Row - Skill Level and Availability Distribution */}
