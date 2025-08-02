@@ -22,6 +22,7 @@ import logo from "../assets/logosaas.png";
 // Import API services
 import techniciansApi from '../api/technician';
 import ticketsApi from '../api/tickets';
+import skillsApi from '../api/skills';
 import usersApi from '../api/users';
 
 export const TechnicianProfilePage = () => {
@@ -34,8 +35,8 @@ export const TechnicianProfilePage = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [isEditing, setIsEditing] = useState(false);
-    const [formData, setFormData] = useState({});
-    const [userFormData, setUserFormData] = useState({});
+    const [formData, setFormData] = useState({}); // For technician editable fields
+    const [userFormData, setUserFormData] = useState({}); // For associated user editable fields
     const [updateMessage, setUpdateMessage] = useState(null);
 
     useEffect(() => {
@@ -43,11 +44,11 @@ export const TechnicianProfilePage = () => {
             setLoading(true);
             setError(null);
             try {
+                // Fetch Technician details
                 const techResponse = await techniciansApi.getTechnicianById(id);
-                const techData = techResponse.data || techResponse;
-                setTechnician(techData);
-                setFormData(techData);
+                let techData = techResponse.data || techResponse; // Use 'let' to allow modification
 
+                // Fetch Associated User details (if user_id exists)
                 if (techData.user_id) {
                     try {
                         const userResponse = await usersApi.getUserById(techData.user_id);
@@ -59,46 +60,42 @@ export const TechnicianProfilePage = () => {
                     }
                 }
 
-                const ticketsResponse = await ticketsApi.getTicketsByTechnicianId(id);
-                // Ensure assigned tickets also include requester and assignee details for display
-                const fullTicketsData = await Promise.all((ticketsResponse.data?.tickets || ticketsResponse.data || []).map(async (ticket) => {
-                    let requesterDetails = null;
-                    let assignedTechnicianDetails = null;
-
-                    if (ticket.requester_id) {
-                        try {
-                            const reqUserResponse = await usersApi.getUserById(ticket.requester_id);
-                            requesterDetails = reqUserResponse.data || reqUserResponse;
-                        } catch (err) {
-                            console.warn(`Failed to fetch requester ${ticket.requester_id} for ticket ${ticket.id}:`, err);
-                        }
-                    }
-
-                    if (ticket.assigned_technician_id) {
-                        try {
-                            const assignedTechResponse = await techniciansApi.getTechnicianById(ticket.assigned_technician_id);
-                            // If technician API has a user_id for name, fetch that too
-                            if (assignedTechResponse.data?.user_id) {
-                                const assignedUserResponse = await usersApi.getUserById(assignedTechResponse.data.user_id);
-                                assignedTechnicianDetails = {
-                                    ...assignedTechResponse.data,
-                                    user: assignedUserResponse.data || assignedUserResponse
+                // --- OPTIMIZATION FOR SKILLS: Fetch skill names ---
+                if (techData.skills && techData.skills.length > 0) {
+                    const fetchedSkills = await Promise.all(
+                        techData.skills.map(async (skillIdAndPercentage) => {
+                            try {
+                                const skillResponse = await skillsApi.getSkillById(skillIdAndPercentage.id);
+                                const skillDetails = skillResponse.data || skillResponse;
+                                return {
+                                    id: skillDetails.id,
+                                    name: skillDetails.name, // The skill name is now fetched
+                                    percentage: skillIdAndPercentage.percentage
                                 };
-                            } else {
-                                assignedTechnicianDetails = assignedTechResponse.data || assignedTechResponse;
+                            } catch (skillErr) {
+                                console.warn(`Failed to fetch skill ${skillIdAndPercentage.id}:`, skillErr);
+                                return {
+                                    id: skillIdAndPercentage.id,
+                                    name: `Skill ID ${skillIdAndPercentage.id} (Name N/A)`, // Fallback name
+                                    percentage: skillIdAndPercentage.percentage
+                                };
                             }
-                        } catch (err) {
-                            console.warn(`Failed to fetch assigned technician ${ticket.assigned_technician_id} for ticket ${ticket.id}:`, err);
-                        }
-                    }
+                        })
+                    );
+                    // Update techData directly with full skill details
+                    techData = { ...techData, skills: fetchedSkills };
+                }
 
-                    return {
-                        ...ticket,
-                        requester: requesterDetails,
-                        assigned_technician: assignedTechnicianDetails
-                    };
-                }));
-                setAssignedTickets(fullTicketsData);
+                // --- OPTIMIZATION FOR ASSIGNED TICKETS ---
+                // Fetch Assigned Tickets for this technician, directly including requester and assigned_technician
+                const ticketsResponse = await ticketsApi.getTicketsByTechnicianId(id, {
+                    include: 'requester,assigned_technician' // Assuming backend supports including these relations
+                });
+                setAssignedTickets(ticketsResponse.data?.tickets || ticketsResponse.data || []);
+
+                // Set final technician data and form data once
+                setTechnician(techData);
+                setFormData(techData);
 
             } catch (err) {
                 console.error("Failed to fetch technician or related data:", err);
@@ -114,16 +111,15 @@ export const TechnicianProfilePage = () => {
     }, [id]);
 
     const handleTechnicianChange = (e) => {
-        const { name, value } = e.target;
-        setFormData(prev => ({ ...prev, [name]: value }));
+        const { name, value, type, checked } = e.target;
+        setFormData(prev => ({ ...prev, [name]: type === 'checkbox' ? checked : value }));
     };
 
     const handleUserChange = (e) => {
-        const { name, value, type, checked } = e.target;
-        // Handle checkbox type specifically
-        setUserFormData(prev => ({ ...prev, [name]: type === 'checkbox' ? checked : value }));
+        const { name, value } = e.target;
+        // FIX: Ensure userFormData is updated, not formData
+        setUserFormData(prev => ({ ...prev, [name]: value }));
     };
-
 
     const handleSave = async (e) => {
         e.preventDefault();
@@ -170,7 +166,6 @@ export const TechnicianProfilePage = () => {
         setUpdateMessage(null);
     };
 
-    // --- Helper functions for styling (copied from Dashboard.jsx) ---
     const getPriorityColor = (priority) => {
         switch (priority) {
             case 'critical': return 'bg-red-100 text-red-800';
@@ -193,7 +188,6 @@ export const TechnicianProfilePage = () => {
             default: return 'bg-gray-100 text-gray-800';
         }
     };
-    // --- End Helper functions ---
 
     const getTechnicianAvailabilityColor = (availabilityStatus) => {
         const colors = {
@@ -224,9 +218,9 @@ export const TechnicianProfilePage = () => {
     };
 
     const getWorkloadBarColor = (workload) => {
-        if (workload >= 80) return 'bg-gradient-to-r from-red-500 to-red-600';
-        if (workload >= 60) return 'bg-gradient-to-r from-yellow-500 to-orange-500';
-        return 'bg-gradient-to-r from-green-500 to-green-600';
+        if (workload >= 80) return 'bg-red-500';
+        if (workload >= 60) return 'bg-yellow-500';
+        return 'bg-green-500';
     };
 
     const handleViewPerformance = () => {
@@ -244,7 +238,7 @@ export const TechnicianProfilePage = () => {
                 availability_status: technician?.availability_status,
                 workload: technician?.workload,
                 assigned_tickets_total: technician?.assigned_tickets_total,
-                active_tickets: assignedTickets.length,
+                active_tickets: assignedTickets.filter(t => t.status !== 'resolved' && t.status !== 'closed' && t.status !== 'cancelled').length,
                 skills: technician?.skills,
                 created_at: technician?.created_at,
                 updated_at: technician?.updated_at,
@@ -429,12 +423,10 @@ export const TechnicianProfilePage = () => {
                                                 {(user?.name || technician?.name)?.split(' ').map(n => n[0]).join('')}
                                             </div>
                                         </div>
-                                        <div className={`absolute -bottom-2 -right-2 w-6 h-6 rounded-full border-4 border-white ${getStatusColor(technician?.availability_status).replace('bg-green-100', 'bg-green-500').replace('text-green-800', '')
-                                            .replace('bg-red-100', 'bg-red-500').replace('text-red-800', '')
-                                            .replace('bg-blue-100', 'bg-blue-500').replace('text-blue-800', '')
-                                            .replace('bg-yellow-100', 'bg-yellow-500').replace('text-yellow-800', '')
-                                            .replace('bg-gray-100', 'bg-gray-500').replace('text-gray-800', '')
-                                            .replace('bg-purple-100', 'bg-purple-500').replace('text-purple-800', '')
+                                        <div className={`absolute -bottom-2 -right-2 w-6 h-6 rounded-full border-4 border-white ${technician?.availability_status === 'available' ? 'bg-green-500' :
+                                            technician?.availability_status === 'busy' || technician?.availability_status === 'in_meeting' ? 'bg-red-500' :
+                                                technician?.availability_status === 'on_break' || technician?.availability_status === 'focus_mode' || technician?.availability_status === 'end_of_shift' ? 'bg-yellow-500' :
+                                                    'bg-gray-500'
                                             }`}></div>
                                     </div>
                                     <div className="flex-1">
@@ -560,7 +552,7 @@ export const TechnicianProfilePage = () => {
                             <div className="bg-white rounded-2xl shadow-xl border border-gray-100 p-8">
                                 <div className="flex items-center justify-between mb-6">
                                     <div className="flex items-center gap-3">
-                                        <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg flex items-center justify-center">
+                                        <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
                                             <Star size={16} className="text-white" />
                                         </div>
                                         <h3 className="text-2xl font-bold bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent">
@@ -569,7 +561,7 @@ export const TechnicianProfilePage = () => {
                                     </div>
                                     <button
                                         onClick={handleExportReport}
-                                        className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-emerald-500 to-cyan-500 text-white rounded-md text-sm font-semibold hover:from-emerald-600 hover:to-cyan-600 shadow-md hover:shadow-lg transition-all duration-300"
+                                        className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-md text-sm font-semibold hover:bg-blue-700 shadow-md hover:shadow-lg transition-all duration-300"
                                     >
                                         <TrendingUp size={18} />
                                         Export Report
@@ -585,7 +577,7 @@ export const TechnicianProfilePage = () => {
                                                 </div>
                                                 <div className="w-full bg-gray-200 rounded-full h-2.5 overflow-hidden mb-2">
                                                     <div
-                                                        className="h-2.5 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 transition-all duration-700 ease-out"
+                                                        className="h-2.5 rounded-full bg-blue-500 transition-all duration-700 ease-out"
                                                         style={{ width: `${skill.percentage}%` }}
                                                     ></div>
                                                 </div>
@@ -608,7 +600,7 @@ export const TechnicianProfilePage = () => {
                             {/* Current Stats */}
                             <div className="bg-white rounded-2xl shadow-xl border border-gray-100 p-8">
                                 <div className="flex items-center gap-3 mb-6">
-                                    <div className="w-8 h-8 bg-gradient-to-r from-green-500 to-blue-500 rounded-lg flex items-center justify-center">
+                                    <div className="w-8 h-8 bg-green-600 rounded-lg flex items-center justify-center">
                                         <Activity size={16} className="text-white" />
                                     </div>
                                     <h3 className="text-2xl font-bold bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent">
@@ -696,7 +688,7 @@ export const TechnicianProfilePage = () => {
                         <div className="bg-white shadow-xl rounded-2xl p-10 border border-gray-100 transform transition-all duration-300 hover:scale-[1.005]">
                             <div className="flex items-center justify-between mb-6">
                                 <div className="flex items-center gap-4">
-                                    <div className="w-10 h-10 bg-gradient-to-r from-orange-500 to-red-500 rounded-xl flex items-center justify-center shadow-lg">
+                                    <div className="w-10 h-10 bg-orange-600 rounded-xl flex items-center justify-center shadow-lg">
                                         <Clock size={20} className="text-white" />
                                     </div>
                                     <div>
