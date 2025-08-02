@@ -629,7 +629,7 @@ export const TechnicianProfilePage = () => {
 
                                     <div className="grid grid-cols-2 gap-4">
                                         <div className="bg-white rounded-xl p-4 border border-blue-100 text-center">
-                                            <div className="text-2xl font-bold text-blue-600">{technician.assigned_tickets_total || 0}</div>
+                                            <div className="text-2xl font-bold text-blue-600">{technician.tickets.length || 0}</div>
                                             <div className="text-sm text-gray-600">Assigned Tickets</div>
                                         </div>
                                         <div className="bg-white rounded-xl p-4 border border-green-100 text-center">

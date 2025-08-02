@@ -6,6 +6,7 @@ import {
 import ticketsApi from '../api/tickets';
 import skillsApi from '../api/skills';
 import techniciansApi from '../api/technician';
+import { FaRegCircleQuestion } from "react-icons/fa6";
 import usersApi from '../api/users';
 
 // --- Helper Functions & Sub-components ---
@@ -67,8 +68,8 @@ const TimelineItem = ({ icon: Icon, color, author, timestamp, children }) => (
     </li>
 );
 
-const AssignmentTooltip = ({ technicianDetails, technicianWorkload, ticketSkills, skillNames }) => {
-    if (!technicianDetails) return null;
+const AssignmentModal = ({ isOpen, onClose, justification, technicianDetails, technicianWorkload, ticketSkills, skillNames }) => {
+    if (!isOpen || !technicianDetails) return null;
 
     const matchingSkills = technicianDetails.skills?.filter(techSkill =>
         ticketSkills?.includes(techSkill.id)
@@ -77,66 +78,169 @@ const AssignmentTooltip = ({ technicianDetails, technicianWorkload, ticketSkills
     const currentWorkload = technicianWorkload?.tickets?.length || 0;
 
     return (
-        <div className="absolute z-50 w-80 bg-white border border-gray-200 rounded-lg shadow-lg p-4 -top-2 left-full ml-2">
-            <div className="text-sm">
-                <h4 className="font-semibold text-gray-900 mb-2">Assignment Justification</h4>
-
-                <div className="mb-3">
-                    <p className="text-gray-600 mb-1">
-                        <span className="font-medium">Skill Level:</span> {technicianDetails.skill_level?.replace('_', ' ') || 'N/A'}
-                    </p>
-                    <p className="text-gray-600 mb-1">
-                        <span className="font-medium">Specialization:</span> {technicianDetails.specialization || 'N/A'}
-                    </p>
-                    <p className="text-gray-600">
-                        <span className="font-medium">Current Workload:</span> {currentWorkload} active tickets
-                    </p>
+        <div className="fixed inset-0 bg-gray-600 bg-opacity-75 flex items-center justify-center z-50">
+            <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-2xl mx-4 max-h-[90vh] overflow-y-auto">
+                <div className="flex justify-between items-center mb-6">
+                    <h3 className="text-xl font-semibold text-gray-900">Assignment Justification</h3>
+                    <button
+                        onClick={onClose}
+                        className="text-gray-400 hover:text-gray-600 transition-colors"
+                    >
+                        <XCircle className="h-6 w-6" />
+                    </button>
                 </div>
 
-                {matchingSkills.length > 0 && (
-                    <div className="mb-3">
-                        <p className="font-medium text-gray-700 mb-1">Matching Skills ({matchingSkills.length}):</p>
-                        <div className="flex flex-wrap gap-1">
-                            {matchingSkills.map(skill => (
-                                <span key={skill.id} className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">
-                                    {skillNames[skill.id] || `Skill ${skill.id}`}
-                                </span>
-                            ))}
+                <div className="space-y-6">
+                    {/* Technician Basic Info */}
+                    <div className="bg-gray-50 rounded-lg p-4">
+                        <h4 className="font-semibold text-gray-900 mb-3">Technician Information</h4>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <p className="text-gray-600 mb-1">
+                                    <span className="font-medium">Name:</span> {technicianDetails.user?.name || technicianDetails.name || 'N/A'}
+                                </p>
+                                <p className="text-gray-600 mb-1">
+                                    <span className="font-medium">Skill Level:</span> {technicianDetails.skill_level?.replace('_', ' ') || 'N/A'}
+                                </p>
+                                <p className="text-gray-600">
+                                    <span className="font-medium">Specialization:</span> {technicianDetails.specialization || 'N/A'}
+                                </p>
+                            </div>
+                            <div>
+                                <p className="text-gray-600 mb-1">
+                                    <span className="font-medium">Current Workload:</span> {currentWorkload} active tickets
+                                </p>
+                                <p className="text-gray-600 mb-1">
+                                    <span className="font-medium">Status:</span>
+                                    <span className={`ml-1 px-2 py-1 text-xs rounded ${technicianDetails.availability_status === 'available'
+                                        ? 'bg-green-100 text-green-800'
+                                        : 'bg-yellow-100 text-yellow-800'
+                                        }`}>
+                                        {technicianDetails.availability_status?.replace('_', ' ') || 'Unknown'}
+                                    </span>
+                                </p>
+                                <p className="text-gray-600">
+                                    <span className="font-medium">Email:</span> {technicianDetails.user?.email || 'N/A'}
+                                </p>
+                            </div>
                         </div>
                     </div>
-                )}
 
-                <div className="mb-3">
-                    <p className="text-gray-600">
-                        <span className="font-medium">Status:</span>
-                        <span className={`ml-1 px-2 py-1 text-xs rounded ${technicianDetails.availability_status === 'available'
-                            ? 'bg-green-100 text-green-800'
-                            : 'bg-yellow-100 text-yellow-800'
-                            }`}>
-                            {technicianDetails.availability_status?.replace('_', ' ') || 'Unknown'}
-                        </span>
-                    </p>
+                    {/* Matching Skills */}
+                    {matchingSkills.length > 0 && (
+                        <div className="bg-green-50 rounded-lg p-4">
+                            <h4 className="font-semibold text-green-900 mb-3">Matching Skills ({matchingSkills.length})</h4>
+                            <div className="flex flex-wrap gap-2">
+                                {matchingSkills.map(skill => (
+                                    <span key={skill.id} className="text-sm bg-green-100 text-green-800 px-3 py-1 rounded-full">
+                                        {skillNames[skill.id] || `Skill ${skill.id}`}
+                                    </span>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+
+                    {/* AI Assignment Justification */}
+                    <div className="bg-gradient-to-r from-indigo-50 to-blue-50 rounded-lg border border-indigo-100 p-6">
+                        <div className="flex items-start gap-3">
+                            <div className="flex-shrink-0 mt-1">
+                                <div className="w-3 h-3 bg-indigo-400 rounded-full"></div>
+                            </div>
+                            <div className="flex-1">
+                                <h4 className="text-lg font-semibold text-indigo-900 mb-3">AI Assignment Justification</h4>
+                                <div className="space-y-3">
+                                    {matchingSkills.length > 0 && (
+                                        <div className="flex items-center gap-2">
+                                            <span className="w-2 h-2 bg-green-400 rounded-full"></span>
+                                            <span className="text-indigo-700">Perfect skill match: {matchingSkills.length} skills aligned</span>
+                                        </div>
+                                    )}
+                                    {technicianDetails.skill_level === 'senior' && (
+                                        <div className="flex items-center gap-2">
+                                            <span className="w-2 h-2 bg-blue-400 rounded-full"></span>
+                                            <span className="text-indigo-700">Senior expertise for complex ticket resolution</span>
+                                        </div>
+                                    )}
+                                    {currentWorkload < 5 && (
+                                        <div className="flex items-center gap-2">
+                                            <span className="w-2 h-2 bg-yellow-400 rounded-full"></span>
+                                            <span className="text-indigo-700">Optimal workload balance ({currentWorkload} active tickets)</span>
+                                        </div>
+                                    )}
+                                    {technicianDetails.availability_status === 'available' && (
+                                        <div className="flex items-center gap-2">
+                                            <span className="w-2 h-2 bg-green-400 rounded-full"></span>
+                                            <span className="text-indigo-700">Immediate availability for quick response</span>
+                                        </div>
+                                    )}
+                                    {technicianDetails.specialization && (
+                                        <div className="flex items-center gap-2">
+                                            <span className="w-2 h-2 bg-purple-400 rounded-full"></span>
+                                            <span className="text-indigo-700">Specialized in: {technicianDetails.specialization}</span>
+                                        </div>
+                                    )}
+                                </div>
+                                
+                                {/* Assignment Score */}
+                                <div className="mt-4 pt-4 border-t border-indigo-200">
+                                    <div className="flex items-center justify-between">
+                                        <span className="text-sm font-medium text-indigo-800">Assignment Score:</span>
+                                        <div className="flex items-center gap-1">
+                                            {[...Array(5)].map((_, i) => {
+                                                const score = Math.min(
+                                                    (matchingSkills.length * 2) + 
+                                                    (technicianDetails.skill_level === 'senior' ? 1 : 0) + 
+                                                    (currentWorkload < 5 ? 1 : 0) + 
+                                                    (technicianDetails.availability_status === 'available' ? 1 : 0),
+                                                    5
+                                                );
+                                                return (
+                                                    <div 
+                                                        key={i} 
+                                                        className={`w-3 h-3 rounded-full ${
+                                                            i < score ? 'bg-indigo-500' : 'bg-indigo-200'
+                                                        }`}
+                                                    ></div>
+                                                );
+                                            })}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Summary */}
+                    <div className="bg-blue-50 rounded-lg p-4 text-justify">
+                        {/* <h4 className="font-semibold text-blue-900 mb-2">Why this technician?</h4>
+                        <ul className="space-y-1 text-blue-800">
+                            {matchingSkills.length > 0 && (
+                                <li>• Has {matchingSkills.length} required skills</li>
+                            )}
+                            {technicianDetails.skill_level === 'senior' && (
+                                <li>• Senior level expertise</li>
+                            )}
+                            {currentWorkload < 5 && (
+                                <li>• Low current workload</li>
+                            )}
+                            {technicianDetails.availability_status === 'available' && (
+                                <li>• Currently available</li>
+                            )}
+                            {(matchingSkills.length === 0 && technicianDetails.skill_level !== 'senior' && currentWorkload >= 5 && technicianDetails.availability_status !== 'available') && (
+                                <li>• No specific strong match found.</li>
+                            )}
+                        </ul> */}
+                        {justification}
+                    </div>
                 </div>
 
-                <div className="text-xs text-gray-500 border-t pt-2">
-                    <p className="font-medium">Why this technician?</p>
-                    <ul className="mt-1 space-y-1">
-                        {matchingSkills.length > 0 && (
-                            <li>• Has {matchingSkills.length} required skills</li>
-                        )}
-                        {technicianDetails.skill_level === 'senior' && (
-                            <li>• Senior level expertise</li>
-                        )}
-                        {currentWorkload < 5 && (
-                            <li>• Low current workload</li>
-                        )}
-                        {technicianDetails.availability_status === 'available' && (
-                            <li>• Currently available</li>
-                        )}
-                        {(matchingSkills.length === 0 && technicianDetails.skill_level !== 'senior' && currentWorkload >= 5 && technicianDetails.availability_status !== 'available') && (
-                            <li>• No specific strong match found.</li>
-                        )}
-                    </ul>
+                <div className="mt-6 flex justify-end">
+                    <button
+                        onClick={onClose}
+                        className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition-colors"
+                    >
+                        Close
+                    </button>
                 </div>
             </div>
         </div>
@@ -153,7 +257,7 @@ export default function TicketDetailsPage() {
     const [skillNames, setSkillNames] = useState({});
     const [technicianDetails, setTechnicianDetails] = useState(null);
     const [technicianWorkload, setTechnicianWorkload] = useState(null);
-    const [showAssignmentTooltip, setShowAssignmentTooltip] = useState(false);
+    const [showAssignmentModal, setShowAssignmentModal] = useState(false);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [updateMessage, setUpdateMessage] = useState(null);
@@ -326,6 +430,32 @@ export default function TicketDetailsPage() {
         await updateTicketOnServer({ tasks: currentTasks });
     };
 
+    const handleCloseTicket = async () => {
+        if (!ticket || !window.confirm('Are you sure you want to close this ticket? This action cannot be undone.')) {
+            return;
+        }
+
+        try {
+            setLoading(true);
+            const updatedTicketData = {
+                ...ticket,
+                status: 'closed',
+                closed_at: new Date().toISOString()
+            };
+
+            await ticketsApi.updateTicket(ticket.id, updatedTicketData);
+            setTicket(updatedTicketData);
+            setUpdateMessage('Ticket closed successfully!');
+            setTimeout(() => setUpdateMessage(''), 3000);
+        } catch (error) {
+            console.error('Error closing ticket:', error);
+            setUpdateMessage('Failed to close ticket. Please try again.');
+            setTimeout(() => setUpdateMessage(''), 3000);
+        } finally {
+            setLoading(false);
+        }
+    };
+
     const renderAuditTrail = (log) => {
         const { field, action, from, to } = log.change || {};
         const authorName = log.author || 'System';
@@ -490,21 +620,13 @@ export default function TicketDetailsPage() {
                                 </DetailItem>
                                 <DetailItem icon={User} label="Assigned To">
                                     <div className="relative">
-                                        <span
-                                            className="cursor-help hover:text-indigo-600 transition-colors"
-                                            onMouseEnter={() => setShowAssignmentTooltip(true)}
-                                            onMouseLeave={() => setShowAssignmentTooltip(false)}
+                                        <button
+                                            className="cursor-pointer hover:text-indigo-600 transition-colors flex items-center"
+                                            onClick={() => setShowAssignmentModal(true)}
                                         >
                                             {ticket.assigned_technician?.name || ticket.assigned_technician_id || 'Unassigned'}
-                                        </span>
-                                        {showAssignmentTooltip && ticket.assigned_technician_id && (
-                                            <AssignmentTooltip
-                                                technicianDetails={technicianDetails}
-                                                technicianWorkload={technicianWorkload}
-                                                ticketSkills={ticket.required_skills}
-                                                skillNames={skillNames}
-                                            />
-                                        )}
+                                            <FaRegCircleQuestion className='ml-1 my-auto'/>
+                                        </button>
                                     </div>
                                 </DetailItem>
                                 <DetailItem icon={Shield} label="Impact">
@@ -595,23 +717,47 @@ export default function TicketDetailsPage() {
                             )}
                         </div>
 
-                        {/* Satisfaction */}
-                        {ticket.satisfaction_rating !== null && ticket.satisfaction_rating !== undefined && (
-                            <div className="rounded-lg border border-gray-200 bg-white p-6">
-                                <h3 className="font-semibold text-gray-800 flex items-center gap-2"><ThumbsUp className="h-5 w-5 text-indigo-500" /> Customer Feedback</h3>
-                                <div className="mt-3 flex items-center gap-2">
-                                    {[...Array(5)].map((_, i) => (
-                                        <Star key={i} className={`h-5 w-5 ${i < ticket.satisfaction_rating ? 'text-yellow-400' : 'text-gray-300'}`} fill="currentColor" />
-                                    ))}
-                                </div>
-                                {ticket.feedback && (
-                                    <p className="mt-2 text-sm italic text-gray-600">"{ticket.feedback}"</p>
-                                )}
-                                {!ticket.feedback && (
-                                    <p className="mt-2 text-sm text-gray-500">No written feedback provided.</p>
-                                )}
-                            </div>
-                        )}
+                                                 {/* Satisfaction */}
+                         {ticket.satisfaction_rating !== null && ticket.satisfaction_rating !== undefined && (
+                             <div className="rounded-lg border border-gray-200 bg-white p-6">
+                                 <h3 className="font-semibold text-gray-800 flex items-center gap-2"><ThumbsUp className="h-5 w-5 text-indigo-500" /> Customer Feedback</h3>
+                                 <div className="mt-3 flex items-center gap-2">
+                                     {[...Array(5)].map((_, i) => (
+                                         <Star key={i} className={`h-5 w-5 ${i < ticket.satisfaction_rating ? 'text-yellow-400' : 'text-gray-300'}`} fill="currentColor" />
+                                     ))}
+                                 </div>
+                                 {ticket.feedback && (
+                                     <p className="mt-2 text-sm italic text-gray-600">"{ticket.feedback}"</p>
+                                 )}
+                                 {!ticket.feedback && (
+                                     <p className="mt-2 text-sm text-gray-500">No written feedback provided.</p>
+                                 )}
+                             </div>
+                         )}
+
+                         {/* Close Ticket Button - Moved here for better positioning */}
+                         {ticket && ticket.status !== 'closed' && ticket.status !== 'cancelled' && (
+                             <div className="rounded-lg border border-gray-200 bg-white p-6">
+                                 <div className="text-center">
+                                     <h3 className="text-lg font-semibold text-gray-800 mb-4">Ticket Actions</h3>
+                                     <button
+                                         onClick={handleCloseTicket}
+                                         disabled={loading}
+                                         className="bg-red-600 hover:bg-red-700 disabled:bg-red-400 text-white font-semibold py-3 px-8 rounded-lg shadow-lg transition-all duration-200 transform hover:scale-105 disabled:transform-none flex items-center gap-2 mx-auto"
+                                     >
+                                         <XCircle className="w-5 h-5" />
+                                         Close Ticket
+                                     </button>
+                                     {updateMessage && (
+                                         <div className="mt-4">
+                                             <p className={`text-sm ${updateMessage.includes('success') ? 'text-green-600' : 'text-red-600'}`}>
+                                                 {updateMessage}
+                                             </p>
+                                         </div>
+                                     )}
+                                 </div>
+                             </div>
+                         )}
                     </div>
 
                     {/* Right Column: Activity Feed */}
@@ -719,6 +865,17 @@ export default function TicketDetailsPage() {
                     </div>
                 </div>
             )}
-        </div>
-    );
+
+                         {/* Assignment Justification Modal */}
+             <AssignmentModal
+                 isOpen={showAssignmentModal}
+                 onClose={() => setShowAssignmentModal(false)}
+                 justification={ticket?.justification}
+                 technicianDetails={technicianDetails}
+                 technicianWorkload={technicianWorkload}
+                 ticketSkills={ticket?.required_skills}
+                 skillNames={skillNames}
+             />
+         </div>
+     );
 }

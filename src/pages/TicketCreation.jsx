@@ -20,11 +20,13 @@ export const TicketCreatePage = () => {
         tags: '', // Comma-separated string for input, will be converted to array
         required_skills: [], // Array of skill IDs
         requester_id: 1, // FIX: This should be dynamic, e.g., from auth context or selected by admin
-        assigned_technician_id: null // Initially unassigned
+        assigned_technician_id: 1 // Initially unassigned
     });
 
     const [availableSkills, setAvailableSkills] = useState([]); // State to store skills from API
     const [loading, setLoading] = useState(false);
+    const [creatingTicket, setCreatingTicket] = useState(false); // New state for ticket creation loading
+    const [aiProgress, setAiProgress] = useState(0); // Track AI assignment progress
     const [pageError, setPageError] = useState(null); // Error for initial skill fetch or form submission
     const [submitMessage, setSubmitMessage] = useState(null); // Success/error message after submission
 
@@ -62,7 +64,7 @@ export const TicketCreatePage = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setLoading(true);
+        setCreatingTicket(true);
         setSubmitMessage(null);
         setPageError(null);
 
@@ -79,6 +81,19 @@ export const TicketCreatePage = () => {
             const response = await ticketsApi.createTicket(dataToSubmit);
 
             if (response.success) {
+                // Show AI assignment loading for 10 seconds with progress
+                const startTime = Date.now();
+                const duration = 10000; // 10 seconds
+                
+                const progressInterval = setInterval(() => {
+                    const elapsed = Date.now() - startTime;
+                    const progress = Math.min((elapsed / duration) * 100, 100);
+                    setAiProgress(progress);
+                }, 100);
+                
+                await new Promise(resolve => setTimeout(resolve, duration));
+                clearInterval(progressInterval);
+                
                 setSubmitMessage(`Ticket #${response.data.id} created successfully!`);
                 setFormData({ // Reset form
                     subject: '',
@@ -92,8 +107,8 @@ export const TicketCreatePage = () => {
                     requester_id: 1,
                     assigned_technician_id: null
                 });
-                // Optionally navigate to the new ticket's detail page or dashboard
-                setTimeout(() => navigate(`/tickets/${response.data.id}`), 1500);
+                // Navigate to the new ticket's detail page after 10 seconds
+                navigate(`/tickets/${response.data.id}`);
             } else {
                 throw new Error(response.message || 'Failed to create ticket.');
             }
@@ -102,7 +117,8 @@ export const TicketCreatePage = () => {
             setPageError(err.message || 'An unexpected error occurred during submission.');
             setSubmitMessage('Ticket creation failed!');
         } finally {
-            setLoading(false);
+            setCreatingTicket(false);
+            setAiProgress(0); // Reset progress
             setTimeout(() => setSubmitMessage(null), 3000); // Clear message after 3 seconds
         }
     };
@@ -154,9 +170,46 @@ export const TicketCreatePage = () => {
                             Error: {pageError}
                         </div>
                     )}
-                    {loading && submitMessage === null && (
-                        <div className="p-4 mb-4 rounded-md text-base bg-blue-100 text-blue-800 flex items-center gap-2">
-                            <Loader2 className="h-5 w-5 animate-spin" /> Submitting ticket...
+                    {creatingTicket && (
+                        <div className="p-6 mb-6 rounded-lg bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200">
+                            <div className="flex items-center justify-center gap-4">
+                                <div className="relative">
+                                    <Loader2 className="h-8 w-8 animate-spin text-indigo-600" />
+                                    <div className="absolute inset-0 rounded-full border-2 border-indigo-200 animate-pulse"></div>
+                                </div>
+                                <div className="text-center">
+                                    <h3 className="text-lg font-semibold text-indigo-900 mb-1">AI is auto-assigning the best technician...</h3>
+                                    <p className="text-sm text-indigo-700">
+                                        {aiProgress < 30 && "Analyzing ticket requirements and skill matches..."}
+                                        {aiProgress >= 30 && aiProgress < 60 && "Evaluating technician availability and workload..."}
+                                        {aiProgress >= 60 && aiProgress < 90 && "Calculating optimal assignment based on priority..."}
+                                        {aiProgress >= 90 && "Finalizing assignment and preparing notification..."}
+                                    </p>
+                                </div>
+                            </div>
+                            
+                            {/* Progress Bar */}
+                            <div className="mt-4">
+                                <div className="w-full bg-indigo-200 rounded-full h-2">
+                                    <div 
+                                        className="bg-indigo-600 h-2 rounded-full transition-all duration-300 ease-out"
+                                        style={{ width: `${aiProgress}%` }}
+                                    ></div>
+                                </div>
+                                <div className="flex justify-between text-xs text-indigo-600 mt-1">
+                                    <span>0%</span>
+                                    <span>{Math.round(aiProgress)}%</span>
+                                    <span>100%</span>
+                                </div>
+                            </div>
+                            
+                            <div className="mt-4 flex justify-center">
+                                <div className="flex space-x-1">
+                                    <div className="w-2 h-2 bg-indigo-400 rounded-full animate-bounce"></div>
+                                    <div className="w-2 h-2 bg-indigo-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+                                    <div className="w-2 h-2 bg-indigo-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                                </div>
+                            </div>
                         </div>
                     )}
 
@@ -289,11 +342,20 @@ export const TicketCreatePage = () => {
                         <div className="pt-4 border-t border-gray-200">
                             <button
                                 type="submit"
-                                disabled={loading}
+                                disabled={creatingTicket || loading}
                                 className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
                             >
-                                <Send className="h-5 w-5 mr-2" />
-                                {loading ? 'Submitting...' : 'Create Ticket'}
+                                {creatingTicket ? (
+                                    <>
+                                        <Loader2 className="h-5 w-5 mr-2 animate-spin" />
+                                        Creating Ticket...
+                                    </>
+                                ) : (
+                                    <>
+                                        <Send className="h-5 w-5 mr-2" />
+                                        Create Ticket
+                                    </>
+                                )}
                             </button>
                         </div>
                     </form>
