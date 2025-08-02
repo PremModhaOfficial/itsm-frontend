@@ -8,6 +8,8 @@ import skillsApi from '../api/skills';
 import techniciansApi from '../api/technician';
 import { FaRegCircleQuestion } from "react-icons/fa6";
 import usersApi from '../api/users';
+import { CloseTicketModal } from '../components/CloseTicketModal';
+
 
 // --- Helper Functions & Sub-components ---
 
@@ -250,6 +252,9 @@ const AssignmentModal = ({ isOpen, onClose, justification, technicianDetails, te
 // --- Main Component ---
 
 export default function TicketDetailsPage() {
+
+    const [showCloseModal, setShowCloseModal] = useState(false);
+    
     const { id } = useParams();
     const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState('work_logs');
@@ -430,23 +435,47 @@ export default function TicketDetailsPage() {
         await updateTicketOnServer({ tasks: currentTasks });
     };
 
-    const handleCloseTicket = async () => {
-        if (!ticket || !window.confirm('Are you sure you want to close this ticket? This action cannot be undone.')) {
-            return;
-        }
+    const handleCloseTicket = async (closeData) => {
+        // if (!ticket || !window.confirm('Are you sure you want to close this ticket? This action cannot be undone.')) {
+        //     return;
+        // }
 
         try {
-            setLoading(true);
+
+            //  if (ticket.status !== 'resolved') {
+            //     toast.error('Ticket must be resolved before closing');
+            //     return;
+            // }
+
+             setLoading(true);
             const updatedTicketData = {
                 ...ticket,
                 status: 'closed',
                 closed_at: new Date().toISOString()
             };
 
-            await ticketsApi.updateTicket(ticket.id, updatedTicketData);
-            setTicket(updatedTicketData);
-            setUpdateMessage('Ticket closed successfully!');
+              const response = await ticketsApi.closeTicket(ticket.id, closeData);
+            
+            if (response.success) {
+                setShowCloseModal(false);
+                setTicket(response.data);
+                setUpdateMessage('Ticket closed successfully!');
+                // Refresh ticket data
+                await fetchTicket();
+            }
+
             setTimeout(() => setUpdateMessage(''), 3000);
+            // setLoading(true);
+            // const updatedTicketData = {
+            //     ...ticket,
+            //     status: 'closed',
+            //     closed_at: new Date().toISOString()
+            // };
+
+            // await ticketsApi.closeTicket(ticket.id, updatedTicketData);
+            // setTicket(updatedTicketData);
+            // setUpdateMessage('Ticket closed successfully!');
+            // setTimeout(() => setUpdateMessage(''), 3000);
         } catch (error) {
             console.error('Error closing ticket:', error);
             setUpdateMessage('Failed to close ticket. Please try again.');
@@ -736,7 +765,7 @@ export default function TicketDetailsPage() {
                          )}
 
                          {/* Close Ticket Button - Moved here for better positioning */}
-                         {ticket && ticket.status !== 'closed' && ticket.status !== 'cancelled' && (
+                         {/* {ticket && ticket.status !== 'closed' && ticket.status !== 'cancelled' && (
                              <div className="rounded-lg border border-gray-200 bg-white p-6">
                                  <div className="text-center">
                                      <h3 className="text-lg font-semibold text-gray-800 mb-4">Ticket Actions</h3>
@@ -757,7 +786,26 @@ export default function TicketDetailsPage() {
                                      )}
                                  </div>
                              </div>
-                         )}
+                         )} */}
+
+            <button
+                onClick={() => setShowCloseModal(true)}
+                // disabled={ticket.status !== 'resolved'}
+                className={`${
+                    ticket.status !== 'resolved' 
+                    ? 'bg-red-500' 
+                    : 'bg-red-500 hover:bg-red-600'
+                } text-white px-4 py-2 rounded`}
+            >
+                Close Ticket
+            </button>
+
+            <CloseTicketModal 
+                isOpen={showCloseModal}
+                onClose={() => setShowCloseModal(false)}
+                onSubmit={handleCloseTicket}
+            />
+
                     </div>
 
                     {/* Right Column: Activity Feed */}

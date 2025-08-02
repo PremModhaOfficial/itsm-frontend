@@ -93,7 +93,12 @@ export const DashboardHeader = ({ user }) => { // Accept user prop
 
                                 <button
                                     onClick={() => {
-                                        navigate(`/${userRole.toLowerCase()}`);
+                                        // For admin users, stay on dashboard instead of going to /admin
+                                        if (userRole.toLowerCase() === 'admin') {
+                                            navigate('/dashboard');
+                                        } else {
+                                            navigate(`/${userRole.toLowerCase()}`);
+                                        }
                                         setIsDropdownOpen(false);
                                     }}
                                     className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
@@ -102,7 +107,7 @@ export const DashboardHeader = ({ user }) => { // Accept user prop
                                         <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                                         </svg>
-                                        {userRole} Dashboard
+                                        {userRole.toLowerCase() === 'admin' ? 'Main Dashboard' : `${userRole} Dashboard`}
                                     </div>
                                 </button>
 

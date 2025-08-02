@@ -117,7 +117,18 @@ const ticketsApi = {
             throw error.response?.data || error.message;
         }
     },
-
+    closeTicket: async (id, closeData) => {
+        try {
+            const response = await axios.put(`${API_URL}/${id}/close`, {
+                feedback: closeData.feedback || null,
+                satisfaction_rating: closeData.satisfaction_rating ? parseInt(closeData.satisfaction_rating) : null,
+                resolution_notes: closeData.resolution_notes || null
+            });
+            return response.data;
+        } catch (error) {
+            throw error.response?.data || error.message;
+        }
+    },
     /**
      * Soft delete (cancel) a ticket.
      * @param {string|number} id - The ID of the ticket to soft delete.

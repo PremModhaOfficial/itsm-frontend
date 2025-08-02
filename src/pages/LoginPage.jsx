@@ -75,7 +75,13 @@ export const LoginPage = () => {
                             const userData = JSON.parse(storedUser);
                             const userRole = userData.role?.toLowerCase() || 'user';
                             console.log("Redirecting to role:", userRole);
-                            navigate(`/${userRole}`);
+                            
+                            // Redirect admin users to dashboard instead of admin page
+                            if (userRole === 'admin') {
+                                navigate('/dashboard');
+                            } else {
+                                navigate(`/${userRole}`);
+                            }
                         } catch (error) {
                             console.error("Error parsing user data for redirect:", error);
                             navigate('/user'); // Fallback to user page

@@ -26,12 +26,23 @@ export const Dashboard = () => {
 
     // Effect to load user info from localStorage
     useEffect(() => {
-        const user = localStorage.getItem('user');
-        console.log(user, "goooooood")
-        setLoggedInUser(user)
-        if (user) {
-            setLoggedInUser(user);
+        const userString = localStorage.getItem('user');
+        console.log("Raw user string from localStorage:", userString);
+        
+        if (userString) {
+            try {
+                const userData = JSON.parse(userString);
+                setLoggedInUser(userData);
+                console.log("Parsed user data:", userData);
+            } catch (error) {
+                console.error("Error parsing user data:", error);
+                // Handle legacy string format
+                const legacyUser = { name: userString, role: 'User' };
+                setLoggedInUser(legacyUser);
+                console.log("Using legacy user format:", legacyUser);
+            }
         } else {
+            console.log("No user data found in localStorage");
             // Optionally redirect to login if no user is found
             // navigate('/login');
         }
